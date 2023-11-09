@@ -1,4 +1,45 @@
 <!DOCTYPE HTML>
+<!--///////////////////////////////////////////////////////////////////////////
+//
+// Project:   IMAGO
+// Package:   Web application
+// Title:     IMAGO web app - Cerca un lemma
+// File:      lemma.html
+// Path:      /var/www/html/archive/
+// Type:      html
+// Started:   2023.11.09
+// Author(s): Nicolò Pratelli
+// State:     online
+//
+// Version history.
+// - 2023.11.09  Nicolò
+//   First version
+//
+// ////////////////////////////////////////////////////////////////////////////
+//
+// This file is part of software developed by the HMR Project
+// Further information at: http://imagoarchive.it
+// Copyright (C) 2020-2023 CNR-ISTI, AIMH, AI&Digital Humanities group
+//
+// This is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published
+// by the Free Software Foundation; either version 3.0 of the License,
+// or (at your option) any later version.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty
+// of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, see <http://www.gnu.org/licenses/>.
+//
+//  ////////////////////////////////////////////////////////////////////////////
+// 	
+//	Templade based on:
+// 	Linear by TEMPLATED
+//  templated.co @templatedco
+//  Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+//
+// ///////////////////////////////////////////////////////////////////////-->
 <html lang="it">
 	<head>
 		
@@ -12,47 +53,47 @@
 
 		<!-- Libraries -->
 
-		<!-- JS Libraries -->
+		<!-- External Libraries -->
 		<script src="libs/jquery/1.11.0/jquery.min.js"></script>
 		<script src="libs/selectize/0.12.6/selectize.min.js"></script>
 		<script src="libs/bootstrap/5.0.2/bootstrap.bundle.min.js"></script>
+		<link rel="stylesheet" href="libs/selectize/0.12.6/selectize.bootstrap3.min.css" />
+		<link rel="stylesheet" href="libs/bootstrap/5.0.2/boots	trap.min.css" />
+
+		<!-- Linear Libraries -->
 		<script src="js/skel.min.js"></script>
 		<script src="js/skel-panels.min.js"></script>
-		<script src="js/init.js"></script>
-
-		<!-- Stylesheet -->
-		<link rel="stylesheet" href="libs/selectize/0.12.6/selectize.bootstrap3.min.css" />
-		<link rel="stylesheet" href="libs/bootstrap/5.0.2/bootstrap.min.css" />
+		<script src="js/init.js"></script>		
 		<noscript>
 			<link rel="stylesheet" href="css/skel-noscript.css" />
 			<link rel="stylesheet" href="css/style.css" />
 			<link rel="stylesheet" href="css/style-desktop.css" />
 		</noscript>
 		
-		<!-- Custom JS Libraries -->
+		<!-- Custom Libraries -->
 		<script src="js/functions.js"></script>
 		<script src="js/search.js"></script>
 		<script src="js/include.js"></script>
 
-		<!-- Custom stylesheet -->
 		<link rel="stylesheet" href="css/custom-style.css" />
+
+		<meta property="og:title" content="IMAGO web app - Cerca un lemma">
+		<meta property="og:type" content="web application" />
+		<meta property="og:description" content="Search page of the web application of the IMAGO project">
+		 <meta property="og:image" content=""> <!-- To fill -->
+		<meta property="og:url" content=""> <!-- To fill -->
+		<meta name="twitter:card" content=""> <!-- To fill -->
+
 	</head>
 	<body>
-
 	<!-- Header -->
 		<div id="header">
-			
-			
 			<div id="nav-wrapper"> 
-				<nav w3-include-html="html/navbar_it.html"></nav> 
-
+				<nav w3-include-html="html/navbar_it.html"></nav>
 			</div>
 			<div class="container"> 
-				
 				<!-- Logo -->
-				
 					<img alt="Imago logo" src="images/IMAGObianco-orizzontale2.svg"/>
-				
 			</div>
 		</div>
 	<!-- Header --> 
@@ -129,18 +170,12 @@
 
 
 <!-- Copyright -->
-		<div id="copyright">
-			<div class="container">
-				<h6><a href="../contatti.html"> Contatti</a></h6>
-				<h6><a href="../privacy.html"> Informativa sulla Privacy</a></h6>
-                    ©2020 <a href="https://www.isti.cnr.it/">ISTI-CNR</a>
-				<!--Design: <a href="http://templated.co">TEMPLATED</a>-->
-			</div>
-		</div>
+<div w3-include-html="html/footer_it.html"></div>
 
-		<script>
-			includeHTML();
-		</script>
+<!-- Script to include static html part of the page (navbar, footer, ...) -->
+<script>
+	includeHTML();
+</script>
 
 	</body>
 </html>
