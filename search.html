@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html lang="it">
+	<head>
+		
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>IMAGO web app - Cerca un lemma</title>
+		<meta name="description" content="Pagina cerca dell'applicazione web del progetto PRIN IMAGO" />
+		<meta name="keywords" content="" />
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900' rel='stylesheet' type='text/css'>
+
+		<!-- Libraries -->
+
+		<!-- JS Libraries -->
+		<script src="libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="libs/selectize/0.12.6/selectize.min.js"></script>
+		<script src="libs/bootstrap/5.0.2/bootstrap.bundle.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-panels.min.js"></script>
+		<script src="js/init.js"></script>
+
+		<!-- Stylesheet -->
+		<link rel="stylesheet" href="libs/selectize/0.12.6/selectize.bootstrap3.min.css" />
+		<link rel="stylesheet" href="libs/bootstrap/5.0.2/bootstrap.min.css" />
+		<noscript>
+			<link rel="stylesheet" href="css/skel-noscript.css" />
+			<link rel="stylesheet" href="css/style.css" />
+			<link rel="stylesheet" href="css/style-desktop.css" />
+		</noscript>
+		
+		<!-- Custom JS Libraries -->
+		<script src="js/functions.js"></script>
+		<script src="js/search.js"></script>
+		<script src="js/include.js"></script>
+
+		<!-- Custom stylesheet -->
+		<link rel="stylesheet" href="css/custom-style.css" />
+
+
+	</head>
+	<body>
+
+	<!-- Header -->
+		<div id="header">
+			
+			
+			<div id="nav-wrapper"> 
+				<nav w3-include-html="html/navbar_it.html"></nav> 
+
+			</div>
+			<div class="container"> 
+				
+				<!-- Logo -->
+				
+					<img alt="Imago logo" src="images/IMAGObianco-orizzontale2.svg"/>
+				
+			</div>
+		</div>
+	<!-- Header --> 
+
+	<!-- Main -->
+		<div id="main">
+			<div id="content" class="container">
+				<ul class="breadcrumb">
+					<li><a href="index.html">Home archivio di IMAGO</a></li>
+					<li>Ricerca lemma</li>
+				  </ul>
+				<section>
+						<h2  class="display-2">Ricerca un lemma</h2>
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="basic-addon1">Autore:</span>
+							<input type="text" class="form-control" placeholder="cerca un autore" aria-label="autore" aria-describedby="basic-addon1" id="fauthor" name="fauthor">
+						</div>
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="basic-addon1">Titolo dell'opera:</span>
+							<input type="text" class="form-control" placeholder="cerca un titolo di un'opera" aria-label="titolo" aria-describedby="basic-addon1" id="ftitle" name="ftitle">
+						</div>
+						  
+						<!-- <label for="fauthor">Autore:</label>
+						<input type="text" id="fauthor" name="fauthor"><br>
+						<label for="ftitle">Opera</label>
+						<input type="text" id="ftitle" name="ftitle"><br>
+						<span class="byline"></span> -->
+						
+					<!-- <h3>Seleziona un'opera dalla lista</h3> -->
+					<!-- <select id="select-state" placeholder="Scegli un'opera..."></select> -->
+				</section>
+				
+				<section>
+					<p id="result"></p>
+
+				</section>
+					
+					<!-- <table class="toponyms-table" id="toponyms-labels"></table> -->
+					<!-- <table class="results-table" id="results-table"></table> -->
+					<ol  id="results-list" class="list-group list-group-numbered"></ol>
+
+				<section>
+					
+					
+					
+			</section>
+				<section>
+					<header>
+					</header>
+					<span class="icon"><img src="images/tools.png" alt=""></span>
+					<h2 class="onside">Altre ricerche</h2>
+				</section>
+				<div class="row">
+					<section class="6u">
+						<a href="toponimi.html" class="button centered">Per toponimo</a>
+						
+						<p>Ricerca le <strong>occorrenze</strong>, i <strong>luoghi</strong> del testo e i <strong>contesti</strong> di un toponimo.</p>
+					</section>				
+					<section class="6u">
+						<a href="#" class="button centered">Per opera</a>
+						
+						<p>Seleziona l'opera e visualizza i <strong>toponimi</strong>, le <strong>occorrenze</strong>, i <strong>luoghi testuali</strong> e i <strong>contesti</strong>. </p>
+					</section>
+					<!-- <section class="4u">
+						<a href="autori.html" class="button centered">Per autore</a>
+						
+						<p>Seleziona l'autore e visualizza i <strong>toponimi</strong> citati nelle sue opere.</p>
+					</section>		 -->
+				
+				</div>
+			</div>
+		</div>
+	<!-- /Main -->
+
+
+<!-- Copyright -->
+		<div id="copyright">
+			<div class="container">
+				<h6><a href="../contatti.html"> Contatti</a></h6>
+				<h6><a href="../privacy.html"> Informativa sulla Privacy</a></h6>
+                    ©2020 <a href="https://www.isti.cnr.it/">ISTI-CNR</a>
+				<!--Design: <a href="http://templated.co">TEMPLATED</a>-->
+			</div>
+		</div>
+
+		<script>
+			includeHTML();
+		</script>
+
+	</body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE HTML>
+<!--
+	Linear by TEMPLATED
+    templated.co @templatedco
+    Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>Mappa dei toponimi danteschi</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900' rel='stylesheet' type='text/css'>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-panels.min.js"></script>
+		<script src="js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="css/skel-noscript.css" />
+			<link rel="stylesheet" href="css/style.css" />
+			<link rel="stylesheet" href="css/style-desktop.css" />
+		</noscript>
+		<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script> -->
+		
+
+		<script src="js/functions.js"></script>
+		<script src="js/lemma.js"></script>
+
+		<!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.5/js/standalone/selectize.js"></script> -->
+
+		<style>
+			/* Style the list */
+			ul.breadcrumb {
+	
+				list-style: none;
+				/*background-color: #eee;*/
+			}
+			
+			/* Display list items side by side */
+			ul.breadcrumb li {
+				display: inline;
+				font-size: 18px;
+			}
+			
+			/* Add a slash symbol (/) before/behind each list item */
+			ul.breadcrumb li+li:before {
+				padding: 8px;
+				color: black;
+				content: "/\00a0";
+			}
+			
+			/* Add a color to all links inside the list */
+			ul.breadcrumb li a {
+			
+				text-decoration: none;
+			}
+			
+			/* Add a color on mouse-over */
+			ul.breadcrumb li a:hover {
+				
+				text-decoration: underline;
+			}
+
+			.results-table {
+				font-family: Arial, Helvetica, sans-serif;
+				border-collapse: collapse;
+				width: 100%;
+			  }
+			  
+			  .results-table td, .results-table th {
+				border: 1px solid #ddd;
+				padding: 8px;
+			  }
+			  
+			  .results-table tr:nth-child(even){background-color: #f2f2f2;}
+			  
+			  .results-table tr:hover {background-color: #ddd;}
+			  
+			  .toponyms-table th {
+				padding-top: 12px;
+				padding-bottom: 12px;
+				text-align: left;
+				background-color: #80BA8E;
+				color: white;
+				min-width: 8em;
+			  }
+			  .toponyms-table th:first-child {
+				min-width: 12em;
+			  }
+
+			  #toponyms-labels, #toponyms-place{
+				width: 50%;
+			  }
+
+			  #toponym-title{
+				  margin-bottom: 1em;
+			  }
+			.onside {
+				display: flex;
+				width: 100%;
+				justify-content: center;
+				align-items: center;
+				text-align: center;
+			}
+			
+			.onside:before,
+			.onside:after {
+				content: '';
+				border-top: 2px solid;
+				margin: 0 20px 0 0;
+				flex: 1 0 20px;
+			}
+			
+			.onside:after {
+				margin: 0 0 0 20px;
+			}
+
+			.icon{
+				display: flex;
+				width: 100%;
+				justify-content: center;
+				align-items: center;
+				text-align: center;
+			}
+
+			.icon img{
+				text-align: center;
+				width: 40px;
+				margin: 10px;
+			
+			}
+
+			i{
+				font-weight: 800;
+			}
+
+			#btn-cerca{
+				padding: 0.2em 2em;
+				vertical-align: top;
+			}
+		
+			.selectize-control{
+				width: 40%;
+				display: inline-block;
+				vertical-align: middle;
+			}
+
+			
+
+			#title-occ h3, #title-context h3, #title-places h3{
+				display: inline-block;
+				font-size: 1.4em;
+
+			}
+
+			#toponyms-table th:nth-child(odd){
+				cursor: pointer;
+			}
+
+			#toponyms-table-2 th{
+				cursor: pointer;
+			}
+
+			.icon-arrow {
+				vertical-align: middle;
+			}
+
+			
+			  
+
+			
+			</style>
+			<script>
+				
+			</script>
+
+	</head>
+	<body>
+
+	<!-- Header -->
+		<div id="header">
+			<div id="nav-wrapper"> 
+				<!-- Nav -->
+				<nav id="nav">
+					<ul>
+						<li><a href="../index.html">Homepage</a></li>
+						<li><a href="../archivio.html">Accedi all'archivio</a></li>
+						<li class="dropdown">
+							<a href="javascript:void(0)" class="dropbtn">Progetto</a>
+							<div class="dropdown-content">
+							<a href="../gruppo.html">- Gruppo di Ricerca</a>
+							<a href="../bibliografia.html">- Bibliografia</a>
+							<!-- <a href="#">Ontologia</a> -->
+							</div>
+						</li>
+						<li ><a href="../pubblicazioni.html">Pubblicazioni</a></li>
+						<li><a href="../en/toponyms/works.html"><span class="flag-icon"><img src="images/united-kingdom.png" alt=""></span>English version</a></li>
+					</ul>
+				</nav>
+			</div>
+			<div class="container"> 
+				
+				<!-- Logo -->
+				
+					<img src="images/IMAGObianco-orizzontale2.svg"/>
+				
+			</div>
+		</div>
+	<!-- Header --> 
+
+	<!-- Main -->
+		<div id="main">
+			<div id="content" class="container">
+				<!-- <ul class="breadcrumb">
+					<li><a href="index.html">Mappa dei toponimi</a></li>
+					<li>Ricerca per opera</li>
+				  </ul> -->
+				<!-- <section>
+						<h2>Ricerca un lemma</h2>
+						<label for="fauthor">Autore:</label>
+						<input type="text" id="fauthor" name="fauthor"><br>
+						<label for="ftitle">Opera</label>
+						<input type="text" id="ftitle" name="ftitle"><br>
+						<span class="byline"></span>
+						 -->
+					<!-- <h3>Seleziona un'opera dalla lista</h3> -->
+					<!-- <select id="select-state" placeholder="Scegli un'opera..."></select> -->
+				<!-- </section> -->
+				
+				
+
+				  <div class="card text-center">
+					<div class="card-header">
+					  <ul class="nav nav-tabs card-header-tabs"  id="myTab" role="tablist">
+						<li class="nav-item" role="presentation">
+							<button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Lemma</button>
+						  </li>
+						  <li class="nav-item" role="presentation">
+							<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Manoscritti</button>
+						  </li>
+						  <li class="nav-item" role="presentation">
+							<button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Edizioni a stampa</button>
+						  </li>
+						</ul>
+					</div>
+					<div class="card-body tab-content" id="myTabContent">
+						<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+							<h5 id="titolo" class="card-title">
+								<strong>Autore:</strong> <span id="author"></span> <br/>
+								<strong>Titolo:</strong> <span id="work"></span> <br/>
+							</h5>
+							<p class="card-text">
+								<strong>Genere:</strong> <span id="genres"></span> <br/>
+								<strong>Luoghi descritti:</strong> <span id="places"></span> <br/>
+							</p>
+						</div>
+						<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"> 
+							<ul id="manuscript-list" class="list-group list-group-flush"></ul>
+						</div>
+						<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+							<ul id="print-list" class="list-group list-group-flush"></ul>
+						</div>
+					  </div>
+					</div>
+				  </div>
+
+
+				<section style="font-size: 1.3em;">
+					<span id="titolo" style="font-size: 1.8em; font-weight:lighter; ">
+						<h2 id="author" style="font-weight:lighter;"></h2>
+						<h2 id="work" style="font-weight:lighter; margin-bottom: 5%;"></h2>
+						</span>
+
+					<!-- <h2>Genere</h2>
+
+					<p id="genres"></p>
+
+					<h2>Luoghi citati</h2>
+					<p id="places"></p>
+
+					<h2>Lista manoscritti</h2> -->
+
+					<!-- <ul id="manuscript-list"></ul> -->
+
+					<!-- <h2>Lista edizioni a stampa</h2>
+					<ul id="print-list"></ul> -->
+
+				</section>
+					
+					<!-- <table class="toponyms-table" id="toponyms-labels"></table> -->
+					<!-- <table class="results-table" id="results-table"></table> -->
+
+				<section>
+					
+					
+					
+			</section>
+				<section>
+					<header>
+					</header>
+					<span class="icon"><img src="images/tools.png" alt=""></span>
+					<h2 class="onside">Altre ricerche</h2>
+				</section>
+				<div class="row">
+					<section class="6u">
+						<a href="toponimi.html" class="button centered">Per toponimo</a>
+						
+						<p>Ricerca le <strong>occorrenze</strong>, i <strong>luoghi</strong> del testo e i <strong>contesti</strong> di un toponimo.</p>
+					</section>				
+					<section class="6u">
+						<a href="#" class="button centered">Per opera</a>
+						
+						<p>Seleziona l'opera e visualizza i <strong>toponimi</strong>, le <strong>occorrenze</strong>, i <strong>luoghi testuali</strong> e i <strong>contesti</strong>. </p>
+					</section>
+					<!-- <section class="4u">
+						<a href="autori.html" class="button centered">Per autore</a>
+						
+						<p>Seleziona l'autore e visualizza i <strong>toponimi</strong> citati nelle sue opere.</p>
+					</section>		 -->
+				
+				</div>
+			</div>
+		</div>
+	<!-- /Main -->
+
+
+<!-- Copyright -->
+		<div id="copyright">
+			<div class="container">
+				<h6><a href="../contatti.html"> Contatti</a></h6>
+				<h6><a href="../privacy.html"> Informativa sulla Privacy</a></h6>
+                    ©2020 <a href="https://www.isti.cnr.it/">ISTI-CNR</a>
+				<!--Design: <a href="http://templated.co">TEMPLATED</a>-->
+			</div>
+		</div>
+
+	</body>
+</html>
