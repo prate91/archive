@@ -10,8 +10,8 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("map-container").style.display =  "none";
     
     
-    document.getElementById("download-toponyms-table-2").style.display =  "none";
-    document.getElementById("download-toponyms-table").style.display =  "none";
+    // document.getElementById("download-toponyms-table-2").style.display =  "none";
+    // document.getElementById("download-toponyms-table").style.display =  "none";
     // $("#entities").selectize({
     //     create: true,
     //     sortField: "text",
