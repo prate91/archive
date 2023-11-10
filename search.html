@@ -4,7 +4,7 @@
 // Project:   IMAGO
 // Package:   Web application
 // Title:     IMAGO web app - Cerca un lemma
-// File:      lemma.html
+// File:      search.html
 // Path:      /var/www/html/archive/
 // Type:      html
 // Started:   2023.11.09
@@ -74,7 +74,6 @@
 		<script src="js/functions.js"></script>
 		<script src="js/search.js"></script>
 		<script src="js/include.js"></script>
-
 		<link rel="stylesheet" href="css/custom-style.css" />
 
 		<meta property="og:title" content="IMAGO web app - Cerca un lemma">
@@ -87,15 +86,8 @@
 	</head>
 	<body>
 	<!-- Header -->
-		<div id="header">
-			<div id="nav-wrapper"> 
-				<nav w3-include-html="html/navbar_it.html"></nav>
-			</div>
-			<div class="container"> 
-				<!-- Logo -->
-					<img alt="Imago logo" src="images/IMAGObianco-orizzontale2.svg"/>
-			</div>
-		</div>
+	<div w3-include-html="html/header_it.html"></div>
+		
 	<!-- Header --> 
 
 	<!-- Main -->
@@ -116,25 +108,13 @@
 							<input type="text" class="form-control" placeholder="cerca un titolo di un'opera" aria-label="titolo" aria-describedby="basic-addon1" id="ftitle" name="ftitle">
 						</div>
 						  
-						<!-- <label for="fauthor">Autore:</label>
-						<input type="text" id="fauthor" name="fauthor"><br>
-						<label for="ftitle">Opera</label>
-						<input type="text" id="ftitle" name="ftitle"><br>
-						<span class="byline"></span> -->
-						
-					<!-- <h3>Seleziona un'opera dalla lista</h3> -->
-					<!-- <select id="select-state" placeholder="Scegli un'opera..."></select> -->
 				</section>
 				
 				<section>
 					<p id="result"></p>
 
 				</section>
-					
-					<!-- <table class="toponyms-table" id="toponyms-labels"></table> -->
-					<!-- <table class="results-table" id="results-table"></table> -->
 					<ol  id="results-list" class="list-group list-group-numbered"></ol>
-
 				<section>
 					
 					
