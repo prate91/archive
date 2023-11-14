@@ -1,221 +1,102 @@
 <!DOCTYPE HTML>
-<!--
-	Linear by TEMPLATED
-    templated.co @templatedco
-    Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
--->
-<html>
+<!--///////////////////////////////////////////////////////////////////////////
+//
+// Project:   IMAGO
+// Package:   Web application
+// Title:     IMAGO web app - Cerca un lemma
+// File:      search.html
+// Path:      /var/www/html/archive/
+// Type:      html
+// Started:   2023.11.09
+// Author(s): Nicolò Pratelli
+// State:     online
+//
+// Version history.
+// - 2023.11.09  Nicolò
+//   First version
+//
+// ////////////////////////////////////////////////////////////////////////////
+//
+// This file is part of software developed by the HMR Project
+// Further information at: http://imagoarchive.it
+// Copyright (C) 2020-2023 CNR-ISTI, AIMH, AI&Digital Humanities group
+//
+// This is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published
+// by the Free Software Foundation; either version 3.0 of the License,
+// or (at your option) any later version.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty
+// of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, see <http://www.gnu.org/licenses/>.
+//
+//  ////////////////////////////////////////////////////////////////////////////
+// 	
+//	Templade based on:
+// 	Linear by TEMPLATED
+//  templated.co @templatedco
+//  Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+//
+// ///////////////////////////////////////////////////////////////////////-->
+<html lang="it">
 	<head>
-		<title>Ricerca per genere</title>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<meta name="description" content="" />
+		
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>IMAGO web app - Cerca un lemma</title>
+		<meta name="description" content="Pagina cerca dell'applicazione web del progetto PRIN IMAGO" />
 		<meta name="keywords" content="" />
 		<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900' rel='stylesheet' type='text/css'>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-		<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
 
+		<!-- Libraries -->
+
+		<!-- External Libraries -->
+		<script src="libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="libs/selectize/0.12.6/selectize.min.js"></script>
+		<script src="libs/bootstrap/5.0.2/bootstrap.bundle.min.js"></script>
+		<link rel="stylesheet" href="libs/selectize/0.12.6/selectize.bootstrap3.min.css" />
+		<link rel="stylesheet" href="libs/bootstrap/5.0.2/boots	trap.min.css" />
+
+		<!-- Linear Libraries -->
 		<script src="js/skel.min.js"></script>
 		<script src="js/skel-panels.min.js"></script>
-		<script src="js/init.js"></script>
+		<script src="js/init.js"></script>		
 		<noscript>
 			<link rel="stylesheet" href="css/skel-noscript.css" />
 			<link rel="stylesheet" href="css/style.css" />
 			<link rel="stylesheet" href="css/style-desktop.css" />
 		</noscript>
-		<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script> -->
 		
+		<!-- Custom Libraries -->
 		<script src="js/functions.js"></script>
 		<script src="js/genres.js"></script>
+		<script src="js/include.js"></script>
+		<link rel="stylesheet" href="css/custom-style.css" />
 
-		<!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css" />
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.5/js/standalone/selectize.js"></script> -->
+		<meta property="og:title" content="IMAGO web app - Cerca un lemma">
+		<meta property="og:type" content="web application" />
+		<meta property="og:description" content="Search page of the web application of the IMAGO project">
+		 <meta property="og:image" content=""> <!-- To fill -->
+		<meta property="og:url" content=""> <!-- To fill -->
+		<meta name="twitter:card" content=""> <!-- To fill -->
 
-		<style>
-			/* Style the list */
-			ul.breadcrumb {
-			
-				list-style: none;
-				/*background-color: #eee;*/
-			}
-			
-			/* Display list items side by side */
-			ul.breadcrumb li {
-				display: inline;
-				font-size: 18px;
-			}
-			
-			/* Add a slash symbol (/) before/behind each list item */
-			ul.breadcrumb li+li:before {
-				padding: 8px;
-				color: black;
-				content: "/\00a0";
-			}
-			
-			/* Add a color to all links inside the list */
-			ul.breadcrumb li a {
-			
-				text-decoration: none;
-			}
-			
-			/* Add a color on mouse-over */
-			ul.breadcrumb li a:hover {
-				
-				text-decoration: underline;
-			}
-			#card-table{
-				border-radius: 5px !important;
-				box-shadow: 0px 4px 11px 0px rgba(50, 50, 50, 0.75);
-			}
-			.toponyms-table {
-				font-family: Arial, Helvetica, sans-serif;
-				border-collapse: collapse;
-				width: 100%;
-				border-radius: 5px !important;
-				overflow: hidden;
-			  }
-
-			  
-			  .toponyms-table td, .toponyms-table th {
-				border: 1px solid #ddd;
-				padding: 8px;
-			  }
-			  
-			  .toponyms-table tr:nth-child(even){background-color: #f2f2f2;}
-			  
-			  .toponyms-table tr:hover {background-color: #ddd;}
-			  
-			  .toponyms-table th {
-				padding-top: 12px;
-				padding-bottom: 12px;
-				text-align: left;
-				background-color: #80BA8E;
-				color: white;
-				min-width: 8em;
-			  }
-			  .toponyms-table th:first-child {
-				min-width: 12em;
-			  }
-
-			  .footer-table{
-				text-align: center;
-			  }
-
-			  #toponym-title{
-				  margin-bottom: 1em;
-			  }
-			.onside {
-				display: flex;
-				width: 100%;
-				justify-content: center;
-				align-items: center;
-				text-align: center;
-			}
-			
-			.onside:before,
-			.onside:after {
-				content: '';
-				border-top: 2px solid;
-				margin: 0 20px 0 0;
-				flex: 1 0 20px;
-			}
-			
-			.onside:after {
-				margin: 0 0 0 20px;
-			}
-
-			.icon{
-				display: flex;
-				width: 100%;
-				justify-content: center;
-				align-items: center;
-				text-align: center;
-			}
-
-			.icon img{
-				text-align: center;
-				width: 40px;
-				margin: 10px;
-			
-			}
-
-			i{
-				font-weight: 800;
-			}
-
-			#btn-cerca{
-				padding: 0.2em 2em;
-				vertical-align: top;
-			}
 		
-			.selectize-control{
-				width: 40%;
-				display: inline-block;
-				vertical-align: middle;
-			}
-
-
-			#title-occ h3, #title-context h3, #title-places h3{
-				display: inline-block;
-				font-size: 1.4em;
-
-			}
-
-			#toponyms-table th, #toponyms-place th{
-				cursor: pointer;
-			}
-
-			.icon-arrow {
-				vertical-align: middle;
-			}
-
-			
-			</style>
-			<script>
-				
-			</script>
 
 	</head>
 	<body>
 
 	<!-- Header -->
-		<div id="header">
-			<div id="nav-wrapper"> 
-				<!-- Nav -->
-				<nav id="nav">
-					<ul>
-						<li><a href="../index.html">Homepage</a></li>
-						<li><a href="../archivio.html">Accedi all'archivio</a></li>
-						<li class="dropdown">
-							<a href="javascript:void(0)" class="dropbtn">Progetto</a>
-							<div class="dropdown-content">
-							<a href="../gruppo.html">- Gruppo di Ricerca</a>
-							<a href="../bibliografia.html">- Bibliografia</a>
-							<!-- <a href="#">Ontologia</a> -->
-							</div>
-						</li>
-						<li ><a href="../pubblicazioni.html">Pubblicazioni</a></li>
-						<li><a href="../en/toponyms/authors.html"><span class="flag-icon"><img src="images/united-kingdom.png" alt="">English version</span></a></li>
-					</ul>
-				</nav>
-			</div>
-			<div class="container"> 
-				
-				<!-- Logo -->
-				
-					<img src="images/IMAGObianco-orizzontale2.svg"/>
-				
-			</div>
-		</div>
-	<!-- Header --> 
+	<div w3-include-html="html/header_it.html"></div>
 
 	<!-- Main -->
 		<div id="main">
 			<div id="content" class="container">
 				<ul class="breadcrumb">
-					<li><a href="index.html">Mappa dei toponimi</a></li>
-					<li>Ricerca per autore</li>
+					<li><a href="index.html">Home archivio di IMAGO</a></li>
+					<li>Ricerca per genere</li>
 				  </ul>
 				  
 				<section>
@@ -225,7 +106,7 @@
 						<span class="byline"></span>
 						
 					<h3>Seleziona un genere dalla lista</h3>
-					<select id="select-state" placeholder="Scegli un genere..."></select>
+					<select title="Seleziona un genere" id="select-state" placeholder="Scegli un genere..."></select>
 					<!-- <span class="datalist-entity">
 					<input list="entities" name="entity" id="entity">
 					<datalist id="entities"></datalist>
@@ -242,9 +123,10 @@
 					<!-- <div id="title-places" hidden><h3>Mostra lemmi</h3><button id="btn-mostra-luoghi" class="button btn-show">Mostra</button><button id="btn-hide-luoghi" class="button btn-show" >Chiudi</button></div> -->
 					
 					<!-- <table class="toponyms-table" id="toponyms-labels"></table> -->
-					<div id="card-table" class="card text-center">
+					<div id="card-table" class="card">
 						<div class="card-body">
-							<table class="toponyms-table table-responsive" id="toponyms-place"></table>
+							<ol  id="results-list-genres" class="list-group list-group-numbered"></ol>
+							<!-- <table class="toponyms-table table-responsive" id="toponyms-place"></table> -->
 						</div>
 						<div class="card-footer footer-table">
 							<a id="download-toponyms-place" class="dowload-csv" href="#" onclick="download_table_as_csv('toponyms-place');">Scarica come CSV</a>
@@ -291,14 +173,12 @@
 
 
 <!-- Copyright -->
-		<div id="copyright">
-			<div class="container">
-				<h6><a href="../contatti.html"> Contatti</a></h6>
-			<h6><a href="../privacy.html"> Informativa sulla Privacy</a></h6>
-                    ©2020 <a href="https://www.isti.cnr.it/">ISTI-CNR</a>
-				<!--Design: <a href="http://templated.co">TEMPLATED</a>-->
-			</div>
-		</div>
+<div w3-include-html="html/footer_it.html"></div>
+
+<!-- Script to include static html part of the page (navbar, footer, ...) -->
+<script>
+	includeHTML();
+</script>
 
 	</body>
 </html>

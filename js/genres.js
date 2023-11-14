@@ -1,9 +1,43 @@
+///////////////////////////////////////////////////////////////////////////
+//
+// Project:   IMAGO
+// Package:   Web application
+// File:      genres.js
+// Path:      /var/www/html/archive/js/
+// Type:      javascript
+// Started:   2023.11.09
+// Author(s): Nicolò Pratelli
+// State:     online
+//
+// Version history.
+// - 2023.11.09  Nicolò
+//   First version
+//
+// ////////////////////////////////////////////////////////////////////////////
+//
+// This file is part of software developed by the HMR Project
+// Further information at: http://imagoarchive.it
+// Copyright (C) 2020-2023 CNR-ISTI, AIMH, AI&Digital Humanities group
+//
+// This is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published
+// by the Free Software Foundation; either version 3.0 of the License,
+// or (at your option) any later version.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty
+// of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, see <http://www.gnu.org/licenses/>.
+//
+// ///////////////////////////////////////////////////////////////////////
+
 const url= "https://imagoarchive.it/fuseki/imago/query?output=json&query=";
 
 // Wait for the page to load
 document.addEventListener('DOMContentLoaded', function () {
     // document.getElementById("download-toponyms-table-2").style.display =  "none";
-    // document.getElementById("download-toponyms-table").style.display =  "none";
+    document.getElementById("card-table").style.display =  "none";
     document.getElementById("download-toponyms-place").style.display =  "none";
     // $("#entities").selectize({
     //     create: true,
@@ -121,8 +155,8 @@ fetch(query,
 function changeToponym() {
 
     value = document.getElementById("select-state").value;
-   document.getElementById("toponyms-place").innerHTML = "";
-   document.getElementById("toponyms-place").hidden = false;
+//    document.getElementById("toponyms-place").innerHTML = "";
+//    document.getElementById("toponyms-place").hidden = false;
 
 //    document.getElementById("download-toponyms-place").style.display =  "block";
 
@@ -136,7 +170,7 @@ function changeToponym() {
 	"PREFIX ecrm: <http://erlangen-crm.org/200717/>" +
 	"PREFIX ilrm: <http://imagoarchive.it/ilrmoo/>" +
 	"PREFIX : <https://imagoarchive.it/ontology/>" +
-	"SELECT ?title ?authorName " +
+	"SELECT ?exp_cre ?title ?authorName " +
 	"FROM <https://imagoarchive.it/fuseki/imago/archive>" +
 	"WHERE {" +
 	"  BIND(<"+value+"> AS ?genre)" +
@@ -151,7 +185,7 @@ function changeToponym() {
 	"  :has_genre ?genre ." +
 	" " +
 	"  " +
-	"}";
+	"} ORDER BY ?authorName";
       
     
     var query = url + encodeURIComponent(get_occ_toponym);
@@ -174,51 +208,56 @@ function changeToponym() {
                 che contiene il JSON formattato
             */
 
-            var table = document.getElementById("toponyms-place");
-            table.innerHTML = "";
-            var tr = document.createElement('tr');   
+            var list = document.getElementById("results-list-genres");
+            console.log(list);
+            list.innerHTML = "";
+            // var tr = document.createElement('tr');   
 
-                var th1 = document.createElement('th');
-                var th2 = document.createElement('th');
-                // var th3 = document.createElement('th');
+            //     var th1 = document.createElement('th');
+            //     var th2 = document.createElement('th');
+            //     // var th3 = document.createElement('th');
             
-                var text1 = document.createTextNode('Autore');
-                var text2 = document.createTextNode('Opera');
+            //     var text1 = document.createTextNode('Autore');
+            //     var text2 = document.createTextNode('Opera');
 
-                th1.appendChild(text1);
-                // th1.appendChild(addIconArrows());
-                th2.appendChild(text2);
-                // th2.appendChild(addIconArrows());
+            //     th1.appendChild(text1);
+            //     // th1.appendChild(addIconArrows());
+            //     th2.appendChild(text2);
+            //     // th2.appendChild(addIconArrows());
 
-                tr.appendChild(th1);
-                tr.appendChild(th2);
+            //     tr.appendChild(th1);
+            //     tr.appendChild(th2);
             
-                table.appendChild(tr);
+            //     table.appendChild(tr);
             
             for (var i=0; i<context.results.bindings.length; i++) {
                 // console.log(context.results.bindings[i].labelWork.value);
-                toponym = context.results.bindings[i].authorName.value;
-                occ = context.results.bindings[i].title.value;
+                author = context.results.bindings[i].authorName.value;
+                title = context.results.bindings[i].title.value;
+                iri_lemma = context.results.bindings[i].exp_cre.value;
 
-                var tr = document.createElement('tr');   
-
-                var td1 = document.createElement('td');
-                var td2 = document.createElement('td');
+                var li = document.createElement('li');   
+                li.className = 'list-group-item d-flex justify-content-between align-items-start';
+                var div1 = document.createElement('div');
+                div1.className = 'ms-2 me-auto';
+                var div2 = document.createElement('div');
+                var a = document.createElement('a'); 
+                a.href = "lemma.html?lemma=" + iri_lemma;
             
-                var text1 = document.createTextNode(toponym);
-                var text2 = document.createTextNode(occ);
+                var text1 = document.createTextNode(author);
+                var text2 = document.createTextNode(title);
             
-                td1.appendChild(text1);
-                td2.appendChild(text2);
-
-                tr.appendChild(td1);
-                tr.appendChild(td2);
+                a.appendChild(text2);
+                div2.appendChild(text1);
+                div1.appendChild(div2);
+                div1.appendChild(a);
+                li.appendChild(div1);
             
-                table.appendChild(tr);
+                list.appendChild(li);
             }
             //  console.log(context);
-            th1.addEventListener("click", function(){ sortTable(0, "toponyms-place"); }); 
-            th2.addEventListener("click", function(){ sortTable(1, "toponyms-place"); }); 
+            // th1.addEventListener("click", function(){ sortTable(0, "toponyms-place"); }); 
+            // th2.addEventListener("click", function(){ sortTable(1, "toponyms-place"); }); 
         
 
         })
@@ -227,7 +266,7 @@ function changeToponym() {
         });
 
         document.getElementById("download-toponyms-place").style.display =  "inline-block";
-    // document.getElementById("title-places").hidden = false;
+        document.getElementById("card-table").style.display =  "block";
     // document.getElementById("title-occ").hidden = false;
     // document.getElementById("title-context").hidden = false;
 
