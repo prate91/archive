@@ -1,0 +1,16 @@
+{
+  "extends": [
+    "development"
+  ],
+  "hints": {
+    "compat-api/css": [
+      "default",
+      {
+        "ignore": [
+          "-moz-user-select",
+          "cursor: -webkit-grab"
+        ]
+      }
+    ]
+  }
+}
