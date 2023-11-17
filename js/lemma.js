@@ -183,14 +183,20 @@ fetch(query_man,
         // var table = document.getElementById("results-table");
         // table.innerHTML="";
         for (var i=0; i<context.results.bindings.length; i++) {
+            iri_manuscript = context.results.bindings[i].manuscript.value;
             place = context.results.bindings[i].placeName.value;
             library = context.results.bindings[i].libraryName.value;
             signatureName = context.results.bindings[i].signature.value;
             // places = context.results.bindings[i].places.value;
 
+
             li = document.createElement('li');
             li.className = "list-group-item";
-            li.textContent = place + ", " + library + ", " + signatureName;
+            var a = document.createElement('a'); 
+            a.href = "manuscript.html?manuscript=" + iri_manuscript;
+            text = document.createTextNode(place + ", " + library + ", " + signatureName);
+            a.appendChild(text);
+            li.appendChild(a);
 
             manList.appendChild(li);
 
