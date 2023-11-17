@@ -3,8 +3,8 @@
 //
 // Project:   IMAGO
 // Package:   Web application
-// Title:     IMAGO web app - Lemma page
-// File:      lemma.html
+// Title:     IMAGO web app - Manuscript page
+// File:      manuscript.html
 // Path:      /var/www/html/archive/
 // Type:      html
 // Started:   2023.11.09
@@ -46,7 +46,7 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
-		<title>IMAGO web app - Cerca un lemma</title>
+		<title>IMAGO web app - Manuscript</title>
 		<meta name="description" content="Pagina cerca dell'applicazione web del progetto PRIN IMAGO" />
 		<meta name="keywords" content="" />
 		<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900' rel='stylesheet' type='text/css'>
@@ -72,7 +72,7 @@
 		
 		<!-- Custom Libraries -->
 		<script src="js/functions.js"></script>
-		<script src="js/lemma.js"></script>
+		<script src="js/manuscript.js"></script>
 		<script src="js/include.js"></script>
 		<link rel="stylesheet" href="css/custom-style.css" />
 
@@ -109,9 +109,71 @@
 					<!-- <select id="select-state" placeholder="Scegli un'opera..."></select> -->
 				<!-- </section> -->
 				
-				
+				<div class="card">
+					<div class="card-header">
+					  Manoscritto (rdf:type :Manuscript)
+					</div>
+					<div class="card-body">
+					  <h5 id="id-man" class="card-title"></h5>
+					  <dl class="row">
+						<dt class="col-sm-3">Autore come compare nel manoscritto</dt>
+						<dd class="col-sm-9"><span id="author"></span></dd>
+					  
+						<dt class="col-sm-3">Titolo come compare nel manoscritto</dt>
+						<dd class="col-sm-9"><span id="work"></span></dd>
+					  
+						<dt class="col-sm-3">Località Biblioteca</dt>
+						<dd class="col-sm-9"><span id="place-libriary"></span></dd>
+					  
+						<dt class="col-sm-3">Biblioteca</dt>
+						<dd class="col-sm-9"><span id="library"></span></dd>
 
-				  <div class="card">
+						<dt class="col-sm-3">Segnatura</dt>
+						<dd class="col-sm-9"><span id="signature"></span></dd>
+					  
+						<dt class="col-sm-3">Fogli</dt>
+						<dd class="col-sm-9"><span id="folios"></span></dd>
+
+						<dt class="col-sm-3">Datazione</dt>
+						<dd class="col-sm-9"><span id="datazione"></span></dd>
+					  
+						<dt class="col-sm-3">Incipit dedica/proemio</dt>
+						<dd class="col-sm-9"><span id="incipit-ded"></span></dd>
+					  
+						<dt class="col-sm-3">Explicit dedica/proemio</dt>
+						<dd class="col-sm-9"><span id="explicit-ded"></span></dd>
+
+						<dt class="col-sm-3">Incipit testo</dt>
+						<dd class="col-sm-9"><span id="incipit-text"></span></dd>
+					  
+						<dt class="col-sm-3">Explicit testo</dt>
+						<dd class="col-sm-9"><span id="explicit-text"></span></dd>
+					  
+						<dt class="col-sm-3">Decorazione apparato iconografico</dt>
+						<dd class="col-sm-9"><span id="decoration"></span></dd>
+					  
+						<dt class="col-sm-3">Link al manoscritto</dt>
+						<dd class="col-sm-9"><span id="link-man"></span></dd>
+
+						<dt class="col-sm-3">Link alla descrizione del manoscritto</dt>
+						<dd class="col-sm-9"><span id="link-desc"></span></dd>
+					  
+						<dt class="col-sm-3">Fonti secondarie</dt>
+						<dd class="col-sm-9"><span id="sources"></span></dd>
+
+						<dt class="col-sm-3">Altre eventuali notizie</dt>
+						<dd class="col-sm-9"><span id="notes"></span></dd>
+					  
+						<dt class="col-sm-3">Schedatore</dt>
+						<dd class="col-sm-9"><span id="user"></span></dd>
+
+						<dt class="col-sm-3">Ultima modifica</dt>
+						<dd class="col-sm-9"><span id="last-mod"></span></dd>
+					  </dl>
+					</div>
+				  </div>
+
+				  <!-- <div class="card">
 					<div class="card-header">
 					  <ul class="nav nav-tabs card-header-tabs"  id="myTab" role="tablist">
 						<li class="nav-item" role="presentation">
@@ -150,7 +212,7 @@
 							<ul id="print-list" class="list-group list-group-numbered"></ul>
 						</div>
 					  </div>
-				  </div>
+				  </div> -->
 
 
 
