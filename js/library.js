@@ -187,14 +187,18 @@ fetch(query_man,
             place = context.results.bindings[i].placeName.value;
             library = context.results.bindings[i].libraryName.value;
             signatureName = context.results.bindings[i].signature.value;
-            // places = context.results.bindings[i].places.value;
+            foliosName = context.results.bindings[i].folios.value;
 
 
             li = document.createElement('li');
             li.className = "list-group-item";
             var a = document.createElement('a'); 
             a.href = "manuscript.html?manuscript=" + iri_manuscript;
-            text = document.createTextNode(place + ", " + library + ", " + signatureName);
+            if(foliosName!=""){
+                text = document.createTextNode(place + ", " + library + ", " + signatureName + ", " + foliosName);
+            } else {
+                text = document.createTextNode(place + ", " + library + ", " + signatureName);
+            }
             a.appendChild(text);
             li.appendChild(a);
 

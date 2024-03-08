@@ -178,13 +178,17 @@ fetch(query,
                 
             } catch{sources = "-"};
             try{
+                
                 url_manuscript = context.results.bindings[i].l_url_manuscript.value;
-                var a = document.createElement('a'); 
-                a.href = url_manuscript;
-                text = document.createTextNode(url_manuscript);
-                a.appendChild(text);
-                url_manuscript = a;
-
+                if(url_manuscript!=""){
+                    var a = document.createElement('a'); 
+                    a.href = url_manuscript;
+                    text = document.createTextNode(url_manuscript);
+                    a.appendChild(text);
+                    url_manuscript = a;
+                }else{
+                    url_manuscript="-";
+                }
             } catch{url_manuscript = "-"};
             try{
                 url_manuscript_description = context.results.bindings[i].l_url_manuscript_description.value;
@@ -198,8 +202,8 @@ fetch(query,
             try{user = context.results.bindings[i].annotator.value;} catch{notes = "-"};
             try{lastMod = context.results.bindings[i].timestamp.value;} catch{notes = "-"};
 
-            idManuscript.textContent = placeLibriary + ", " + library + ", " + signature;
-            idManuscriptBread.textContent = placeLibriary + ", " + library + ", " + signature;
+            idManuscript.textContent = placeLibriary + ", " + library_name + ", " + signature;
+            idManuscriptBread.textContent = placeLibriary + ", " + library_name + ", " + signature;
             idLemmaBread.textContent = authorOfWork + ", " + titleOfWork;
             idLemmaBread.href = "lemma.html?lemma="+expressionCreation;
             authorSpan.textContent = author;
