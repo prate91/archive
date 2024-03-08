@@ -3,11 +3,11 @@
 //
 // Project:   IMAGO
 // Package:   Web application
-// Title:     IMAGO web app - Lemma page
-// File:      lemma.html
+// Title:     IMAGO web app - Print Edition page
+// File:      printEdition.html
 // Path:      /var/www/html/archive/
 // Type:      html
-// Started:   2023.11.09
+// Started:   2023.12.16
 // Author(s): Nicolò Pratelli
 // State:     online
 //
@@ -46,7 +46,7 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
-		<title>IMAGO web app - Cerca un lemma</title>
+		<title>IMAGO web app - Manuscript</title>
 		<meta name="description" content="Pagina cerca dell'applicazione web del progetto PRIN IMAGO" />
 		<meta name="keywords" content="" />
 		<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900' rel='stylesheet' type='text/css'>
@@ -72,7 +72,7 @@
 		
 		<!-- Custom Libraries -->
 		<script src="js/functions.js"></script>
-		<script src="js/lemma.js"></script>
+		<script src="js/printEdition.js"></script>
 		<script src="js/include.js"></script>
 		<link rel="stylesheet" href="css/custom-style.css" />
 
@@ -145,13 +145,83 @@
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="index.html">Opere geografiche</a></li>
 					  <li class="breadcrumb-item"><a href="search.html">Cerca</a></li>
-					  <li class="breadcrumb-item"><a id="id-lemma-author-bread" href="">Author</a></li>
-					  <li id="id-lemma-bread" class="breadcrumb-item active" aria-current="page">Lemma</li>
+					  <li class="breadcrumb-item"><a id="id-lemma-bread"  href="#">Lemma</a></li>
+					  <li id="id-prin-bread" class="breadcrumb-item active" aria-current="page">Edizione a Stampa</li>
 					</ol>
 				  </nav>
 
+				<div class="card">
+					<div class="card-header">
+					  Edizione a stampa 
+					</div>
+					<div class="card-body">
+					  <h5 id="id-prin" class="card-title"></h5>
+					  
+					  <dl class="row">
+						<dt class="col-sm-4 font-weight-bold">Autore</dt>
+						<dd class="col-sm-8 border-bottom"><span id="author"></span></dd>
+					  
+						<dt class="col-sm-4">Titolo</dt>
+						<dd class="col-sm-8  border-bottom"><span id="work"></span></dd>
+					  
+						<dt class="col-sm-4">Curatore</dt>
+						<dd class="col-sm-8 border-bottom"><span id="curator"></span></dd>
+					  
+						<dt class="col-sm-4">Luogo</dt>
+						<dd class="col-sm-8 border-bottom"><span id="place"></span></dd>
 
-				  <div class="card">
+						<dt class="col-sm-4">Luogo come indicato nell'edizione</dt>
+						<dd class="col-sm-8 border-bottom"><span id="place-as-appear"></span></dd>
+
+						<dt class="col-sm-4">Data</dt>
+						<dd class="col-sm-8 border-bottom"><span id="datazione"></span></dd>
+					  
+						<dt class="col-sm-4">Tipografo / Casa editrice</dt>
+						<dd class="col-sm-8 border-bottom"><span id="publisher"></span></dd>
+
+						<dt class="col-sm-4">Formato</dt>
+						<dd class="col-sm-8 border-bottom"><span id="format"></span></dd>
+					  
+						<dt class="col-sm-4">Pagine</dt>
+						<dd class="col-sm-8 border-bottom"><span id="pages"></span></dd>
+					  
+						<dt class="col-sm-4">Illustrazioni</dt>
+						<dd class="col-sm-8 border-bottom"><span id="illustration"></span></dd>
+
+						<dt class="col-sm-4">Altre eventuali notizie</dt>
+						<dd class="col-sm-8 border-bottom"><span id="notes"></span></dd>
+					  
+						<dt class="col-sm-4">Prefatore ed eventuali dediche, prefazioni o premesse all’edizione</dt>
+						<dd class="col-sm-8 border-bottom"><span id="prefator"></span></dd>
+					  
+						<dt class="col-sm-4">Altri contenuti</dt>
+						<dd class="col-sm-8 border-bottom"><span id="other-contents"></span></dd>
+					  
+						<dt class="col-sm-4">Prima edizione/ristampa</dt>
+						<dd class="col-sm-8 border-bottom"><span id="edition"></span></dd>
+
+						<dt class="col-sm-4">Data dell'edizione</dt>
+						<dd class="col-sm-8 border-bottom"><span id="date-edition"></span></dd>
+					  
+						<dt class="col-sm-4">Fonti dell'edizione</dt>
+						<dd class="col-sm-8 border-bottom"><span id="primary-sources"></span></dd>
+
+						<dt class="col-sm-4">Tipologia ecdotica dell’edizione</dt>
+						<dd class="col-sm-8 border-bottom"><span id="ecdotic"></span></dd>
+					  
+						<dt class="col-sm-4">Fonti delle notizie</dt>
+						<dd class="col-sm-8 border-bottom"><span id="sources"></span></dd>
+
+						<dt class="col-sm-4">Schedatore</dt>
+						<dd class="col-sm-8 border-bottom"><span id="user"></span></dd>
+
+						<dt class="col-sm-4">Ultima modifica</dt>
+						<dd class="col-sm-8"><span id="last-mod"></span></dd>
+					  </dl>
+					</div>
+				  </div>
+
+				  <!-- <div class="card">
 					<div class="card-header">
 					  <ul class="nav nav-tabs card-header-tabs"  id="myTab" role="tablist">
 						<li class="nav-item" role="presentation">
@@ -169,19 +239,16 @@
 						<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 							<dl class="row">
 								<dt class="col-sm-3">Autore</dt>
-								<dd class="col-sm-9 border-bottom"><span id="author"></span></dd>
+								<dd class="col-sm-9"><span id="author"></span></dd>
 							  
 								<dt class="col-sm-3">Titolo</dt>
-								<dd class="col-sm-9 border-bottom"><span id="work"></span></dd>
+								<dd class="col-sm-9"><span id="work"></span></dd>
 							  
-								<dt class="col-sm-3">Generi</dt>
-								<dd class="col-sm-9 border-bottom"><span id="genres"></span></dd>
+								<dt class="col-sm-3">Genere</dt>
+								<dd class="col-sm-9"><span id="genres"></span></dd>
 							  
 								<dt class="col-sm-3">Luoghi descritti</dt>
-								<dd class="col-sm-9 border-bottom"><span id="places"></span></dd>
-
-								<dt class="col-sm-3">Abstract</dt>
-								<dd class="col-sm-9"><span id="abstract"></span></dd>
+								<dd class="col-sm-9"><span id="places"></span></dd>
 							  
 							  </dl>
 							
@@ -193,12 +260,10 @@
 							<ul id="print-list" class="list-group list-group-numbered"></ul>
 						</div>
 					  </div>
-				  </div>
+				  </div> -->
 
 
 
-				
-				</div>
 			</div>
 		</div>
 	<!-- /Main -->

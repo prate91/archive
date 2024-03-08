@@ -3,8 +3,8 @@
 //
 // Project:   IMAGO
 // Package:   Web application
-// Title:     IMAGO web app - Cerca un lemma
-// File:      search.html
+// Title:     IMAGO web app - Lemma page
+// File:      lemma.html
 // Path:      /var/www/html/archive/
 // Type:      html
 // Started:   2023.11.09
@@ -57,7 +57,6 @@
 		<script src="libs/jquery/1.11.0/jquery.min.js"></script>
 		<script src="libs/selectize/0.12.6/selectize.min.js"></script>
 		<script src="libs/bootstrap/5.0.2/bootstrap.bundle.min.js"></script>
-		<script src="libs/mark/mark.min.js"></script>
 		<link rel="stylesheet" href="libs/selectize/0.12.6/selectize.bootstrap3.min.css" />
 		<link rel="stylesheet" href="libs/bootstrap/5.0.2/boots	trap.min.css" />
 
@@ -73,7 +72,7 @@
 		
 		<!-- Custom Libraries -->
 		<script src="js/functions.js"></script>
-		<script src="js/search.js"></script>
+		<script src="js/place.js"></script>
 		<script src="js/include.js"></script>
 		<link rel="stylesheet" href="css/custom-style.css" />
 
@@ -84,8 +83,10 @@
 		<meta property="og:url" content=""> <!-- To fill -->
 		<meta name="twitter:card" content=""> <!-- To fill -->
 
+
 	</head>
 	<body>
+
 	<!-- Header -->
 	<div id="header">
 		<div id="nav-wrapper"> 
@@ -120,69 +121,81 @@
 		</div>
 	</div>
 	<!-- Header -->
-		
-	<!-- Header --> 
 
 	<!-- Main -->
 		<div id="main">
 			<div id="content" class="container">
+				<!-- <ul class="breadcrumb">
+					<li><a href="index.html">Mappa dei toponimi</a></li>
+					<li>Ricerca per opera</li>
+				  </ul> -->
+				<!-- <section>
+						<h2>Ricerca un lemma</h2>
+						<label for="fauthor">Autore:</label>
+						<input type="text" id="fauthor" name="fauthor"><br>
+						<label for="ftitle">Opera</label>
+						<input type="text" id="ftitle" name="ftitle"><br>
+						<span class="byline"></span>
+						 -->
+					<!-- <h3>Seleziona un'opera dalla lista</h3> -->
+					<!-- <select id="select-state" placeholder="Scegli un'opera..."></select> -->
+				<!-- </section> -->
+				
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="index.html">Opere geografiche</a></li>
-					  <li id="id-man-bread" class="breadcrumb-item active" aria-current="page">Ricerca per lemma</li>
+					  <li class="breadcrumb-item"><a href="placesList.html">Lista luoghi</a></li>
+					  <li id="id-lemma-bread" class="breadcrumb-item active" aria-current="page">Lemma</li>
 					</ol>
 				  </nav>
-				<section>
-						<h2>Ricerca un lemma</h2>
-						<div class="input-group mb-3">
-							<span class="input-group-text" id="basic-addon1">Autore:</span>
-							<input type="text" class="form-control" placeholder="cerca un autore" aria-label="autore" aria-describedby="basic-addon1" id="fauthor" name="fauthor">
-						</div>
-						<div class="input-group mb-3">
-							<span class="input-group-text" id="basic-addon1">Titolo dell'opera:</span>
-							<input type="text" class="form-control" placeholder="cerca un titolo di un'opera" aria-label="titolo" aria-describedby="basic-addon1" id="ftitle" name="ftitle">
-						</div>
-						  
-				</section>
-				
-				<section>
-					<p id="result"></p>
 
-				</section>
-					<ol  id="results-list" class="list-group list-group-numbered"></ol>
-				<section>
-					
-					
-					
-			</section>
-				<!-- <section>
-					<header>
-					</header>
-					<span class="icon"><img src="images/tools.png" alt=""></span>
-					<h2 class="onside"></h2>
-				</section>
-				<div class="row">
-					<section class="6u">
-						<a href="authors.html" class="button centered">Lista di tutti gli autori</a>
+
+				  <div class="card">
+					<div class="card-header">
+					  <ul class="nav nav-tabs card-header-tabs"  id="myTab" role="tablist">
+						<li class="nav-item" role="presentation">
+							<button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Luogo</button>
+						  </li>
+						  <li class="nav-item" role="presentation">
+							<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Biblioteche</button>
+						  </li>
+						  <li class="nav-item" role="presentation">
+							<button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Opere</button>
+						  </li>
+						</ul>
+					</div>
+					<div class="card-body tab-content" id="myTabContent">
+						<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+							<dl class="row">
+								<dt class="col-sm-3">Luogo</dt>
+								<dd class="col-sm-9 border-bottom"><span id="place"></span></dd>
+							  
+								<dt class="col-sm-3">Coordinate</dt>
+								<dd class="col-sm-9 border-bottom"><span id="coordinates"></span></dd>
+							  
+							  
+							  
+							  </dl>
+							
+						</div>
+						<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"> 
+							<ol  id="libraries-list" class="list-group list-group-numbered"></ol>
+						</div>
+						<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab"> 
+							<ol  id="toponyms-list" class="list-group list-group-numbered"></ol>
+						</div>
+						</div>
 						
-					</section>				
-					<section class="6u">
-						<a href="works.html" class="button centered">Lista di tutte le opere</a>
-						
-					</section>  -->
-					<div w3-include-html="html/liste.html"></div>
-					<div w3-include-html="html/altre_ricerche.html"></div>
-					<!-- <section class="4u">
-						<a href="autori.html" class="button centered">Per autore</a>
-						
-						<p>Seleziona l'autore e visualizza i <strong>toponimi</strong> citati nelle sue opere.</p>
-					</section>		
+					  </div>
+				  </div>
+
+
+
 				
 				</div>
 			</div>
 		</div>
 	<!-- /Main -->
-
 
 <!-- Copyright -->
 <div w3-include-html="html/footer_it.html"></div>

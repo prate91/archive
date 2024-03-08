@@ -31,8 +31,10 @@
 // along with this program; if not, see <http://www.gnu.org/licenses/>.
 //
 // ///////////////////////////////////////////////////////////////////////
-
 const url= "https://imagoarchive.it/fuseki/imago/query?output=json&query=";
+const named_graph = "https://imagoarchive.it/fuseki/imago/archive";
+// const url= "http://localhost:3030/imago/query?output=json&query=";
+// const named_graph = "http://localhost:3030/imago/archive";
 
 // Wait for the page to load
 document.addEventListener('DOMContentLoaded', function () {
@@ -68,7 +70,7 @@ headers.append('X-Requested-With', 'XMLHttpRequest');
 
 var get_toponyms = "PREFIX : <https://imagoarchive.it/ontology/>" +
                     "SELECT ?label ?genre " +
-                    "FROM <https://imagoarchive.it/fuseki/imago/archive>" +
+                    "FROM <"+named_graph+">" +
                     "WHERE {" +
                     "		?genre a :Genre;" +
                     "  			:has_genre_name ?label." +
@@ -171,7 +173,7 @@ function changeToponym() {
 	"PREFIX ilrm: <http://imagoarchive.it/ilrmoo/>" +
 	"PREFIX : <https://imagoarchive.it/ontology/>" +
 	"SELECT ?exp_cre ?title ?authorName " +
-	"FROM <https://imagoarchive.it/fuseki/imago/archive>" +
+	"FROM <"+named_graph+">" +
 	"WHERE {" +
 	"  BIND(<"+value+"> AS ?genre)" +
 	"  " +
@@ -239,7 +241,7 @@ function changeToponym() {
                 var li = document.createElement('li');   
                 li.className = 'list-group-item d-flex justify-content-between align-items-start';
                 var div1 = document.createElement('div');
-                div1.className = 'ms-2 me-auto';
+                div1.className = 'listDiv ms-2 me-auto';
                 var div2 = document.createElement('div');
                 var a = document.createElement('a'); 
                 a.href = "lemma.html?lemma=" + iri_lemma;

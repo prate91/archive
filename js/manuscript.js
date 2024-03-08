@@ -1,4 +1,7 @@
 const url= "https://imagoarchive.it/fuseki/imago/query?output=json&query=";
+const named_graph = "https://imagoarchive.it/fuseki/imago/archive";
+// const url= "http://localhost:3030/imago/query?output=json&query=";
+// const named_graph = "http://localhost:3030/imago/archive";
 
 // Wait for the page to load
 document.addEventListener('DOMContentLoaded', function () {
@@ -26,14 +29,22 @@ console.log(sectionName);
 	"PREFIX ecrm: <http://erlangen-crm.org/200717/>" +
 	"PREFIX ilrm: <http://imagoarchive.it/ilrmoo/>" +
 	"PREFIX : <https://imagoarchive.it/ontology/>" +
-	"SELECT ?manuscript ?placeName ?libraryName ?signature ?folios ?s_coordinates ?l_manuscript_author ?l_title ?l_incipit_dedication ?l_explicit_dedication ?l_incipit_text ?l_explicit_text ?l_date_manuscript ?l_sources ?l_url_manuscript ?l_url_manuscript_description ?l_notes " +
-	"FROM <https://imagoarchive.it/fuseki/imago/archive>" +
+	"SELECT ?manuscript ?exp_cre ?authorName ?titleWork ?placeName ?library ?libraryName ?signature ?folios ?s_coordinates ?l_manuscript_author ?l_title ?l_incipit_dedication ?l_explicit_dedication ?l_incipit_text ?l_explicit_text ?l_date_manuscript ?l_sources ?l_url_manuscript ?l_url_manuscript_description ?l_notes ?l_decoration ?annotator ?timestamp " +
+	"FROM <"+named_graph+">" +
 	"WHERE {" +
 	"    BIND(<"+sectionName+"> AS ?manuscript)" +
 	"    ?exp_cre ilrm:R18_created ?manuscript ." +
+    "    ?exp_cre ilrm:R17_created ?work ;" +
+	"  		 ecrm:P14_carried_out_by ?author ." +
+	"  ?author a :Author ;" +
+	"     ecrm:P1_is_identified_by/ecrm:P190_has_symbolic_content ?authorName ." +
+	"  ?work a ilrm:F2_Expression ;" +
+	"  ecrm:P102_has_title/ecrm:P190_has_symbolic_content ?titleWork ." +
 	"    ?manuscript ecrm:P1_is_identified_by/ecrm:P190_has_symbolic_content ?signature ;" +
 	"                ecrm:P50_has_current_keeper ?library ;" +
-	"                ecrm:P46_is_composed_of/ecrm:P1_is_identified_by/ecrm:P190_has_symbolic_content ?folios ." +
+	"                ecrm:P46_is_composed_of/ecrm:P1_is_identified_by/ecrm:P190_has_symbolic_content ?folios ;" +
+	"                :compiled_form ?annotator ;" +
+	"                :last_mod_form ?timestamp ." +
 	"    ?manifestation ilrm:R7i_is_materialized_in ?manuscript ." +
 	"  	?manifestation_creation ilrm:R24_created ?manifestation ." +
 	"    ?library ecrm:P74_has_current_or_former_residence ?libraryPlace ;" +
@@ -68,15 +79,18 @@ console.log(sectionName);
 	"                  ecrm:P190_has_symbolic_content ?l_explicit_text ." +
 	"      }" +
 	"  	OPTIONAL{" +
-	"      ?manifestation_creation ecrm:P4_has_time_span ?date_manuscript .					" +
+	"      ?manifestation_creation ecrm:P4_has_time-span ?date_manuscript .					" +
 	"      ?date_manuscript ecrm:P170i_time_is_defined_by ?l_date_manuscript ." +
 	"  	}" +
 	"  	OPTIONAL {" +
-	"	?manuscript :has_secondary_sources  ?l_sources ." +
+	"	?manuscript :has_secondary_source  ?l_sources ." +
 	"    }" +
 	"" +
 	"    OPTIONAL {" +
 	"      ?manuscript  :has_url_manuscript ?l_url_manuscript ." +
+	"    }" +
+    "   OPTIONAL {" +
+	"      ?manuscript  :has_decoration ?l_decoration ." +
 	"    }" +
 	"" +
 	"    OPTIONAL {" +
@@ -112,10 +126,13 @@ fetch(query,
         console.log(context.results);
 
         var idManuscript = document.getElementById("id-man");
+        var idManuscriptBread = document.getElementById("id-man-bread");
+        var idLemmaBread = document.getElementById("id-lemma-bread");
         var authorSpan = document.getElementById("author");
         var workSpan = document.getElementById("work");
         var placeLibriarySpan = document.getElementById("place-libriary");
         var librarySpan = document.getElementById("library");
+        var libraryA = document.getElementById("libraryUrl");
         var signatureSpan = document.getElementById("signature");
         var foliosSpan = document.getElementById("folios");
         var datazioneSpan = document.getElementById("datazione");
@@ -137,43 +154,139 @@ fetch(query,
         // var table = document.getElementById("results-table");
         // table.innerHTML="";
         for (var i=0; i<context.results.bindings.length; i++) {
+            try{titleOfWork = context.results.bindings[i].titleWork.value;} catch{ titleOfWork = "-"};
+            try{authorOfWork = context.results.bindings[i].authorName.value;} catch{authorOfWork = "-"};
+            try{expressionCreation = context.results.bindings[i].exp_cre.value;} catch{expressionCreation = "-"};
+            try{title = context.results.bindings[i].l_title.value;} catch{ title = "-"};
+            try{author = context.results.bindings[i].l_manuscript_author.value;} catch{author = "-"};
+            try{placeLibriary = context.results.bindings[i].placeName.value;} catch{placeLibriary = "-"};
+            try{library_iri = context.results.bindings[i].library.value;} catch{library_iri = "-"};
+            try{library_name = context.results.bindings[i].libraryName.value;} catch{library = "-"};
+            try{signature = context.results.bindings[i].signature.value;} catch{signature = "-"};
+            try{folios = context.results.bindings[i].folios.value;} catch{folios = "-"};
+            try{date_manuscript = context.results.bindings[i].l_date_manuscript.value;} catch{date_manuscript = "-"};
+            try{incipit_dedication = context.results.bindings[i].l_incipit_dedication.value;} catch{incipit_dedication = "-"};
+            try{explicit_dedication = context.results.bindings[i].l_explicit_dedication.value;} catch{explicit_dedication = "-"};
+            try{incipit_text = context.results.bindings[i].l_incipit_text.value;} catch{incipit_text = "-"};
+            try{explicit_text = context.results.bindings[i].l_explicit_text.value;} catch{explicit_text = "-"};
+            try{decoration = context.results.bindings[i].l_decoration.value;} catch{decoration = "-"};
+            try{
+                sources = context.results.bindings[i].l_sources.value;
+                var ulSources = document.createElement('ul');
+                ulSources = linkifySources(sources);
+                sources = ulSources;
+                
+            } catch{sources = "-"};
+            try{
+                url_manuscript = context.results.bindings[i].l_url_manuscript.value;
+                var a = document.createElement('a'); 
+                a.href = url_manuscript;
+                text = document.createTextNode(url_manuscript);
+                a.appendChild(text);
+                url_manuscript = a;
 
-            try{title = context.results.bindings[i].l_title.value;} catch{ title = ""};
-            try{author = context.results.bindings[i].l_manuscript_author.value;} catch{author = ""};
-            try{placeLibriary = context.results.bindings[i].placeName.value;} catch{placeLibriary = ""};
-            try{library = context.results.bindings[i].libraryName.value;} catch{library = ""};
-            try{signature = context.results.bindings[i].signature.value;} catch{signature = ""};
-            try{folios = context.results.bindings[i].folios.value;} catch{folios = ""};
-            try{date_manuscript = context.results.bindings[i].l_date_manuscript.value;} catch{date_manuscript = ""};
-            try{incipit_dedication = context.results.bindings[i].l_incipit_dedication.value;} catch{incipit_dedication = ""};
-            try{explicit_dedication = context.results.bindings[i].l_explicit_dedication.value;} catch{explicit_dedication = ""};
-            try{incipit_text = context.results.bindings[i].l_incipit_text.value;} catch{incipit_text = ""};
-            try{explicit_text = context.results.bindings[i].l_explicit_text.value;} catch{explicit_text = ""};
-            // try{decoration = context.results.bindings[i].decoration.value;} catch{decoration = ""};
-            try{sources = context.results.bindings[i].l_sources.value;} catch{sources = ""};
-            try{url_manuscript = context.results.bindings[i].l_url_manuscript.value;} catch{url_manuscript = ""};
-            try{url_manuscript_description = context.results.bindings[i].l_url_manuscript_description.value;} catch{url_manuscript_description = ""};
-            try{notes = context.results.bindings[i].l_notes.value;} catch{notes = ""};
+            } catch{url_manuscript = "-"};
+            try{
+                url_manuscript_description = context.results.bindings[i].l_url_manuscript_description.value;
+                var a_description = document.createElement('a'); 
+                a_description.href = url_manuscript_description;
+                text_description = document.createTextNode(url_manuscript_description);
+                a_description.appendChild(text_description);
+                url_manuscript_description = a_description;
+            } catch{url_manuscript_description = "-"};
+            try{notes = context.results.bindings[i].l_notes.value;} catch{notes = "-"};
+            try{user = context.results.bindings[i].annotator.value;} catch{notes = "-"};
+            try{lastMod = context.results.bindings[i].timestamp.value;} catch{notes = "-"};
 
             idManuscript.textContent = placeLibriary + ", " + library + ", " + signature;
+            idManuscriptBread.textContent = placeLibriary + ", " + library + ", " + signature;
+            idLemmaBread.textContent = authorOfWork + ", " + titleOfWork;
+            idLemmaBread.href = "lemma.html?lemma="+expressionCreation;
             authorSpan.textContent = author;
-            workSpan.textContent = title;
-            placeLibriarySpan.textContent = placeLibriary;
-            librarySpan.textContent = library;
-            signatureSpan.textContent = signature;
-            foliosSpan.textContent = folios;
-            datazioneSpan.textContent = date_manuscript;
-            incipitDedSpan.textContent = incipit_dedication;
-            explicitDedSpan.textContent = explicit_dedication;
-            incipitTextSpan.textContent = incipit_text;
-            explicitTextSpan.textContent = explicit_text;
-            // decorationSpan.textContent = decoration;
-            linkManSpan.textContent = url_manuscript;
-            linkDescSpan.textContent = url_manuscript_description;
-            sourcesSpan.textContent = sources;
-            notesSpan.textContent = notes;
-            // userSpan.textContent = user;
-            // lastModSpan.textContent = lastMod;
+            if(author == ""){
+                authorSpan.textContent = "-";
+            } else{
+                authorSpan.textContent = author;
+            }
+            if(title == ""){
+                workSpan.textContent = "-";
+            } else{
+                workSpan.textContent = title;
+            }
+            if(placeLibriary == ""){
+                placeLibriarySpan.textContent = "-";
+            }else{
+                placeLibriarySpan.textContent = placeLibriary;
+            }
+            if(library_name == ""){
+                librarySpan.textContent = "-";
+            }else{
+                librarySpan.textContent = library_name;
+            }
+            if(signature == ""){
+                signatureSpan.textContent = "-";
+            }else{
+                signatureSpan.textContent = signature;
+            }
+            if(folios == ""){
+                foliosSpan.textContent = "-";
+            }else{
+                foliosSpan.textContent = folios;
+            }
+            if(date_manuscript == ""){
+                datazioneSpan.textContent = "-";
+            }else{
+                datazioneSpan.textContent = date_manuscript;
+            }
+            if(incipit_dedication == ""){
+                incipitDedSpan.textContent = "-";
+            }else{
+                incipitDedSpan.textContent = incipit_dedication;
+            }
+            if(explicit_dedication == ""){
+                explicitDedSpan.textContent = "-";
+            }else{
+                explicitDedSpan.textContent = explicit_dedication;
+            }
+            if(incipit_text == ""){
+                incipitTextSpan.textContent = "-";
+            }else{
+                incipitTextSpan.textContent = incipit_text;
+            }
+            if(explicit_text == ""){
+                explicitTextSpan.textContent = "-";
+            }else{
+                explicitTextSpan.textContent = explicit_text;
+            }
+            if(decoration == ""){
+                decorationSpan.textContent = "-";
+            }else{
+                decorationSpan.textContent = decoration;
+            }
+            if(url_manuscript == "-"){
+                linkManSpan.textContent = url_manuscript;
+            }else{
+                linkManSpan.appendChild(url_manuscript);
+            }
+            if(url_manuscript_description == "-"){
+                linkDescSpan.textContent = url_manuscript_description;
+            }else{
+                linkDescSpan.appendChild(url_manuscript_description);
+            }
+            if(sources == "-"){
+                sourcesSpan.textContent = sources;
+            }else{
+                sourcesSpan.append(sources);
+            }
+            if(notes == ""){
+                notesSpan.textContent = "-";
+            }else{
+                notesSpan.textContent = notes;
+            }
+            libraryA.href="library.html?library="+library_iri;
+            userSpan.textContent = user;
+            const date = new Date(lastMod).toLocaleDateString('en-GB');
+            lastModSpan.textContent = date;
             
             
          }

@@ -3,8 +3,8 @@
 //
 // Project:   IMAGO
 // Package:   Web application
-// Title:     IMAGO web app - Cerca un lemma
-// File:      search.html
+// Title:     IMAGO web app - Lista autori
+// File:      authors.html
 // Path:      /var/www/html/archive/
 // Type:      html
 // Started:   2023.11.09
@@ -73,7 +73,7 @@
 		
 		<!-- Custom Libraries -->
 		<script src="js/functions.js"></script>
-		<script src="js/search.js"></script>
+		<script src="js/librariesList.js"></script>
 		<script src="js/include.js"></script>
 		<link rel="stylesheet" href="css/custom-style.css" />
 
@@ -120,8 +120,6 @@
 		</div>
 	</div>
 	<!-- Header -->
-		
-	<!-- Header --> 
 
 	<!-- Main -->
 		<div id="main">
@@ -129,19 +127,51 @@
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="index.html">Opere geografiche</a></li>
-					  <li id="id-man-bread" class="breadcrumb-item active" aria-current="page">Ricerca per lemma</li>
+					  <li id="id-man-bread" class="breadcrumb-item active" aria-current="page">Lista di tutti gli autori</li>
 					</ol>
 				  </nav>
 				<section>
-						<h2>Ricerca un lemma</h2>
-						<div class="input-group mb-3">
-							<span class="input-group-text" id="basic-addon1">Autore:</span>
-							<input type="text" class="form-control" placeholder="cerca un autore" aria-label="autore" aria-describedby="basic-addon1" id="fauthor" name="fauthor">
-						</div>
-						<div class="input-group mb-3">
-							<span class="input-group-text" id="basic-addon1">Titolo dell'opera:</span>
-							<input type="text" class="form-control" placeholder="cerca un titolo di un'opera" aria-label="titolo" aria-describedby="basic-addon1" id="ftitle" name="ftitle">
-						</div>
+					<ul class="pagination">
+						<li class="page-item"><a class="page-link" href="#">A</a></li>
+						<li class="page-item"><a class="page-link" href="#">B</a></li>
+						<li class="page-item"><a class="page-link" href="#">C</a></li>
+						<li class="page-item"><a class="page-link" href="#">D</a></li>
+						<!-- <li class="page-item"><a class="page-link" href="#">E</a></li> -->
+						<li class="page-item"><a class="page-link" href="#">F</a></li>
+						<li class="page-item"><a class="page-link" href="#">G</a></li>
+						<li class="page-item"><a class="page-link" href="#">H</a></li>
+						<li class="page-item"><a class="page-link" href="#">I</a></li>
+						<!-- <li class="page-item"><a class="page-link" href="#">J</a></li> -->
+						<!-- <li class="page-item"><a class="page-link" href="#">K</a></li> -->
+						<li class="page-item"><a class="page-link" href="#">L</a></li>
+						<li class="page-item"><a class="page-link" href="#">M</a></li>
+						<li class="page-item"><a class="page-link" href="#">N</a></li>
+						<li class="page-item"><a class="page-link" href="#">O</a></li>
+						<li class="page-item"><a class="page-link" href="#">P</a></li>
+						<!-- <li class="page-item"><a class="page-link" href="#">Q</a></li> -->
+						<li class="page-item"><a class="page-link" href="#">R</a></li>
+						<li class="page-item"><a class="page-link" href="#">S</a></li>
+						<li class="page-item"><a class="page-link" href="#">T</a></li>
+						<li class="page-item"><a class="page-link" href="#">U</a></li>
+						<li class="page-item"><a class="page-link" href="#">V</a></li>
+						<li class="page-item"><a class="page-link" href="#">W</a></li>
+						<!-- <li class="page-item"><a class="page-link" href="#">X</a></li> -->
+						<!-- <li class="page-item"><a class="page-link" href="#">Y</a></li> -->
+						<li class="page-item"><a class="page-link" href="#">Z</a></li>
+					  </ul>
+					
+					<table class="table table-hover" id="myTable">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Biblioteca</th>
+								<th>Luogo Biblioteca</th>
+							</tr>
+						</thead>
+						<tbody id="myTableBody">
+						</tbody>
+				   </table>
+				   
 						  
 				</section>
 				
@@ -159,25 +189,25 @@
 					<header>
 					</header>
 					<span class="icon"><img src="images/tools.png" alt=""></span>
-					<h2 class="onside"></h2>
+					<h2 class="onside">Altre ricerche</h2>
 				</section>
 				<div class="row">
 					<section class="6u">
-						<a href="authors.html" class="button centered">Lista di tutti gli autori</a>
+						<a href="toponimi.html" class="button centered">Per toponimo</a>
 						
+						<p>Ricerca le <strong>occorrenze</strong>, i <strong>luoghi</strong> del testo e i <strong>contesti</strong> di un toponimo.</p>
 					</section>				
 					<section class="6u">
-						<a href="works.html" class="button centered">Lista di tutte le opere</a>
+						<a href="#" class="button centered">Per opera</a>
 						
-					</section>  -->
-					<div w3-include-html="html/liste.html"></div>
-					<div w3-include-html="html/altre_ricerche.html"></div>
+						<p>Seleziona l'opera e visualizza i <strong>toponimi</strong>, le <strong>occorrenze</strong>, i <strong>luoghi testuali</strong> e i <strong>contesti</strong>. </p>
+					</section> -->
 					<!-- <section class="4u">
 						<a href="autori.html" class="button centered">Per autore</a>
 						
 						<p>Seleziona l'autore e visualizza i <strong>toponimi</strong> citati nelle sue opere.</p>
-					</section>		
-				
+					</section>		 -->
+					<div w3-include-html="html/altre_ricerche.html"></div>
 				</div>
 			</div>
 		</div>
