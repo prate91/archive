@@ -1,5 +1,7 @@
 const url= "https://imagoarchive.it/fuseki/imago/query?output=json&query=";
-// import data from './../geojson/provinces.geojson' assert { type: 'json' };
+const named_graph = "https://imagoarchive.it/fuseki/imago/archive";
+// const url= "http://localhost:3030/imago/query?output=json&query=";
+// const named_graph = "http://localhost:3030/imago/archive";
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -19,8 +21,8 @@ var get_works ="PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>" +
 "PREFIX ecrm: <http://erlangen-crm.org/200717/>" +
 "PREFIX ilrm: <http://imagoarchive.it/ilrmoo/>" +
 "PREFIX : <https://imagoarchive.it/ontology/>" +
-"SELECT DISTINCT ?placeName ?coord ?toponym " +
-"FROM <https://imagoarchive.it/fuseki/imago/archive>" +
+"SELECT DISTINCT ?coord ?toponym (group_concat(distinct ?toponymName;separator=\", \") as ?placeName) " +
+"FROM <"+named_graph+">" +
 "WHERE {" +
 "    " +
 "  ?exp_cre a ilrm:F28_Expression_Creation ;" +
@@ -33,8 +35,8 @@ var get_works ="PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>" +
 "  		ecrm:P106_is_composed_of ?toponym ." +
 "  ?place :is_identified_by_toponym ?toponym ;" +
 " 		 ecrm:P168_place_is_defined_by/ecrm:P190_has_symbolic_content ?coord ." +
-"    ?toponym ecrm:P190_has_symbolic_content ?placeName ." +
-"} ";
+"    ?toponym ecrm:P190_has_symbolic_content ?toponymName ." +
+"}  GROUP BY ?toponym ?coord ";
                   
                  
 var query = url + encodeURIComponent(get_works);
@@ -97,8 +99,8 @@ fetch(query,
          // }
 
          // console.log(data[key])
-         if(data[key].coord.value!="POINT( )"){
-            if(data[key].coord.value!="POINT(null null)"){
+         if(data[key].coord.value!=""){
+            // if(data[key].coord.value!="POINT(null null)"){
               console.log(data[key].coord.value);
                  
                //   if(data[key].pleiades != null ){
@@ -157,7 +159,7 @@ fetch(query,
                // work_list_2 = work_list.split(";").join("</li><li>", );
                            
                
-                var mark= L.marker([coord[2],coord[1]], {icon: greenIcon}).bindPopup("</br><b>Luogo:</b> "+ data[key].placeName.value +"<br/>"+ "<button class='show-manuscript' data-iri='"+data[key].toponym.value+"' onclick='showManuscripts(this)'>Mostra opere</button> </ul>").addTo(mcg) // Add into the MCG instead of directly to the map.
+                var mark= L.marker([coord[2],coord[1]], {icon: greenIcon}).bindPopup("<div style='font-size:14px;'><br />Luogo: <b>"+ data[key].placeName.value +"</b><br/><br/>"+ "<button type='button' class='btn btn-sm btn-primary show-manuscript' data-iri='"+data[key].toponym.value+"' onclick='showManuscripts(this)'>Mostra opere</button> </div>").addTo(mcg) // Add into the MCG instead of directly to the map.
                 
                
 
@@ -168,7 +170,7 @@ fetch(query,
          
          }
          
-     }
+     
    }
      mcg.addTo(map);
         
@@ -193,7 +195,7 @@ fetch(query,
 
     function parseWKT(string){
       // let text = '27 months';
-      let regex = /POINT\((?<longitude>-?\d+\.\d+) (?<latitude>-?\d+\.\d+)\)/;
+      let regex = /Point\((?<longitude>-?\d+\.\d+) (?<latitude>-?\d+\.\d+)\)/;
       return [longitude, latitudeunit] = regex.exec(string) || [];
     
   }
@@ -226,8 +228,8 @@ function showManuscripts(btn_manuscripts) {
    "PREFIX ecrm: <http://erlangen-crm.org/200717/>" +
    "PREFIX ilrm: <http://imagoarchive.it/ilrmoo/>" +
    "PREFIX : <https://imagoarchive.it/ontology/>" +
-   "SELECT ?authorName ?title " +
-   "FROM <https://imagoarchive.it/fuseki/imago/archive>" +
+   "SELECT DISTINCT ?exp_cre ?authorName ?title " +
+   "FROM <"+named_graph+">" +
    "WHERE {" +
    "  BIND(<"+ data_iri +"> AS ?toponym)" +
    "  ?exp_cre a ilrm:F28_Expression_Creation ;" +
@@ -266,46 +268,67 @@ fetch(query,
        */
        // document.getElementById("result").innerHTML=context.results;
 
-       var r = ""
-       var table = document.getElementById("results-table");
-       table.innerHTML="";
-       var tr = document.createElement('tr');   
+       var lemmaList = document.getElementById("lemma-list");
+       lemmaList.innerHTML="";
+      //  var r = ""
+      //  var table = document.getElementById("results-table");
+      //  table.innerHTML="";
+      //  var tr = document.createElement('tr');   
 
-       var th1 = document.createElement('th');
-       var th2 = document.createElement('th');
+      //  var th1 = document.createElement('th');
+      //  var th2 = document.createElement('th');
 
-       var textheader1 = document.createTextNode("Autore");
-       var textheader2 = document.createTextNode("Titolo");
+      //  var textheader1 = document.createTextNode("Autore");
+      //  var textheader2 = document.createTextNode("Titolo");
 
-       th1.appendChild(textheader1);
-       th2.appendChild(textheader2);
-       tr.appendChild(th1);
-       tr.appendChild(th2);
+      //  th1.appendChild(textheader1);
+      //  th2.appendChild(textheader2);
+      //  tr.appendChild(th1);
+      //  tr.appendChild(th2);
    
-       table.appendChild(tr);
-       for (var i=0; i<context.results.bindings.length; i++) {
-           title = context.results.bindings[i].title.value;
-           author = context.results.bindings[i].authorName.value;
-         //   signature = context.results.bindings[i].signature.value;
-         //   libraryName = context.results.bindings[i].libraryName.value;
-           // r += author + " - " + title +"<br>";
-           var tr = document.createElement('tr');   
+      //  table.appendChild(tr);
 
-           var td1 = document.createElement('td');
-           var td2 = document.createElement('td');
+       for (var i=0; i<context.results.bindings.length; i++) {
+         iri_lemma = context.results.bindings[i].exp_cre.value;
+         title = context.results.bindings[i].title.value;
+         author = context.results.bindings[i].authorName.value;
+         // places = context.results.bindings[i].places.value;
+
+
+         li = document.createElement('li');
+         li.className = "list-group-item";
+         var a = document.createElement('a'); 
+         a.href = "lemma.html?lemma=" + iri_lemma;
+         text = document.createTextNode(author + ", " + title);
+         a.appendChild(text);
+         li.appendChild(a);
+
+         lemmaList.appendChild(li);
+
+      //  for (var i=0; i<context.results.bindings.length; i++) {
+      //      title = context.results.bindings[i].title.value;
+      //      author = context.results.bindings[i].authorName.value;
+      //    //   signature = context.results.bindings[i].signature.value;
+      //    //   libraryName = context.results.bindings[i].libraryName.value;
+      //      // r += author + " - " + title +"<br>";
+      //      var tr = document.createElement('tr');   
+
+      //      var td1 = document.createElement('td');
+      //      var td2 = document.createElement('td');
        
-           var text1 = document.createTextNode(author);
-           var text2 = document.createTextNode(title);
+      //      var text1 = document.createTextNode(author);
+      //      var text2 = document.createTextNode(title);
        
-           td1.appendChild(text1);
-           td2.appendChild(text2);
-           tr.appendChild(td1);
-           tr.appendChild(td2);
+      //      td1.appendChild(text1);
+      //      td2.appendChild(text2);
+      //      tr.appendChild(td1);
+      //      tr.appendChild(td2);
        
-           table.appendChild(tr);
+      //      table.appendChild(tr);
           
            
         }
+        lemmaList.scrollIntoView();
         
        //  document.getElementById("result").innerHTML=r ;
         

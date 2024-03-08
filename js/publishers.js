@@ -1,5 +1,7 @@
 const url= "https://imagoarchive.it/fuseki/imago/query?output=json&query=";
-// import data from './../geojson/provinces.geojson' assert { type: 'json' };
+const named_graph = "https://imagoarchive.it/fuseki/imago/archive";
+// const url= "http://localhost:3030/imago/query?output=json&query=";
+// const named_graph = "http://localhost:3030/imago/archive";
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -19,7 +21,7 @@ var get_works = "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>" +
 "PREFIX ilrm: <http://imagoarchive.it/ilrmoo/>" +
 "PREFIX : <https://imagoarchive.it/ontology/>" +
 "SELECT DISTINCT ?place ?coord ?placeName " +
-"FROM <https://imagoarchive.it/fuseki/imago/archive>" +
+"FROM <"+named_graph+">" +
 "WHERE {" +
 "  ?exp_cre a ilrm:F28_Expression_Creation ;" +
 "  		 ilrm:R17_created ?work ;" +
@@ -100,8 +102,8 @@ fetch(query,
          // }
 
          // console.log(data[key])
-         if(data[key].coord.value!="POINT( )"){
-            if(data[key].coord.value!="POINT(null null)"){
+         if(data[key].coord.value!=""){
+            // if(data[key].coord.value!="POINT(null null)"){
               console.log(data[key].coord.value);
                  
                //   if(data[key].pleiades != null ){
@@ -156,7 +158,7 @@ fetch(query,
                var coord = parseWKT(data[key].coord.value);
                
                
-                var mark= L.marker([coord[2],coord[1]], {icon: greenIcon}).bindPopup("</br><b>Luogo:</b> "+ data[key].placeName.value +"<br/>"+ "<button class='show-manuscript' data-iri='"+data[key].place.value+"' onclick='showManuscripts(this)'>Mostra opere</button> ").addTo(mcg) // Add into the MCG instead of directly to the map.
+                var mark= L.marker([coord[2],coord[1]], {icon: greenIcon}).bindPopup("<div style='font-size:14px;'><br />Luogo: <b>"+ data[key].placeName.value +"</b><br/><br/>"+ "<button type='button' class='btn btn-sm btn-primary show-manuscript' data-iri='"+data[key].place.value+"' onclick='showManuscripts(this)'>Mostra opere</button> </div> ").addTo(mcg) // Add into the MCG instead of directly to the map.
                 
                
 
@@ -167,7 +169,7 @@ fetch(query,
          
          }
          
-     }
+     
    }
      mcg.addTo(map);
         
@@ -192,7 +194,7 @@ fetch(query,
 
     function parseWKT(string){
       // let text = '27 months';
-      let regex = /POINT\((?<longitude>-?\d+\.\d+) (?<latitude>-?\d+\.\d+)\)/;
+      let regex = /Point\((?<longitude>-?\d+\.\d+) (?<latitude>-?\d+\.\d+)\)/;
       return [longitude, latitudeunit] = regex.exec(string) || [];
     
   }
@@ -225,8 +227,8 @@ function showManuscripts(btn_manuscripts) {
 	"PREFIX ecrm: <http://erlangen-crm.org/200717/>" +
 	"PREFIX ilrm: <http://imagoarchive.it/ilrmoo/>" +
 	"PREFIX : <https://imagoarchive.it/ontology/>" +
-	"SELECT ?print_author ?print_title ?curator ?placeName ?publisher " +
-	"FROM <https://imagoarchive.it/fuseki/imago/archive>" +
+	"SELECT ?print_author ?print_edition ?print_title ?l_datazione ?placeName ?publisher " +
+	"FROM <"+named_graph+">" +
 	"WHERE {" +
 	"  BIND(<"+data_iri+"> AS ?toponym)" +
 	"  ?exp_cre a ilrm:F28_Expression_Creation ;" +
@@ -234,12 +236,14 @@ function showManuscripts(btn_manuscripts) {
 	"  		 ecrm:P14_carried_out_by ?author .	" +
 	"  ?author a :Author ;" +
 	"     ecrm:P1_is_identified_by/ecrm:P190_has_symbolic_content ?authorName ." +
+   "  ?printEditionCreation ilrm:R24_created ?print_edition  ." +
 	"  ?work a ilrm:F2_Expression ;" +
 	"  ecrm:P102_has_title/ecrm:P190_has_symbolic_content ?title ." +
 	"  ?print_edition ilrm:R4_embodies ?work ;" +
 	" 				 ecrm:P106_is_composed_of/ecrm:P190_has_symbolic_content ?print_author ;" +
 	"   				 ecrm:P102_has_title/ecrm:P190_has_symbolic_content ?print_title ." +
 	"  ?print_creation ilrm:R24_created ?print_edition ." +
+   "  OPTIONAL{ ?printEditionCreation ecrm:P4_has_time-span/ecrm:P170i_time_is_defined_by ?l_datazione . }" +
 	"                  OPTIONAL{" +
 	"                 ?print_creation  :has_curator/ecrm:P1_is_identified_by/ecrm:P190_has_symbolic_content ?curator ." +
 	"  }" +
@@ -274,74 +278,65 @@ fetch(query,
            che contiene il JSON formattato
        */
        // document.getElementById("result").innerHTML=context.results;
+       var printList = document.getElementById("print-list");
+       printList.innerHTML="";
 
-       var r = ""
-       var table = document.getElementById("results-table");
-       table.innerHTML="";
-       var tr = document.createElement('tr');   
-
-       var th1 = document.createElement('th');
-       var th2 = document.createElement('th');
-       var th3 = document.createElement('th');
-       var th4 = document.createElement('th');
-       var th5 = document.createElement('th');
-
-       var textheader1 = document.createTextNode("Autore");
-       var textheader2 = document.createTextNode("Titolo");
-       var textheader3 = document.createTextNode("Curatore");
-       var textheader4 = document.createTextNode("Editore");
-       var textheader5 = document.createTextNode("Luogo edizione");
        
-
-       th1.appendChild(textheader1);
-       th2.appendChild(textheader2);
-       th3.appendChild(textheader3);
-       th4.appendChild(textheader4);
-       th5.appendChild(textheader5);
-       tr.appendChild(th1);
-       tr.appendChild(th2);
-       tr.appendChild(th3);
-       tr.appendChild(th4);
-       tr.appendChild(th5);
-   
-       table.appendChild(tr);
-
        for (var i=0; i<context.results.bindings.length; i++) {
-           title = context.results.bindings[i].print_title.value;
-           author = context.results.bindings[i].print_author.value;
-           curator = context.results.bindings[i].curator.value;
-           publisher = context.results.bindings[i].publisher.value;
-           placeName = context.results.bindings[i].placeName.value;
-           // r += author + " - " + title +"<br>";
-           var tr = document.createElement('tr');   
+         
+         iri_print_edition = context.results.bindings[i].print_edition.value;
+         place = context.results.bindings[i].placeName.value;
+         publisher = context.results.bindings[i].publisher.value;
+         datazione = context.results.bindings[i].l_datazione.value;
+         // places = context.results.bindings[i].places.value;
 
-           var td1 = document.createElement('td');
-           var td2 = document.createElement('td');
-           var td3 = document.createElement('td');
-           var td4 = document.createElement('td');
-           var td5 = document.createElement('td');
+
+         li = document.createElement('li');
+         li.className = "list-group-item";
+         var a = document.createElement('a'); 
+         a.href = "printEdition.html?printEdition=" + iri_print_edition;
+         text = document.createTextNode(place + ", " + publisher + ", " + datazione);
+         a.appendChild(text);
+         li.appendChild(a);
+
+         printList.appendChild(li);
+
+         //   title = context.results.bindings[i].print_title.value;
+         //   author = context.results.bindings[i].print_author.value;
+         //   curator = context.results.bindings[i].curator.value;
+         //   publisher = context.results.bindings[i].publisher.value;
+         //   placeName = context.results.bindings[i].placeName.value;
+         //   // r += author + " - " + title +"<br>";
+         //   var tr = document.createElement('tr');   
+
+         //   var td1 = document.createElement('td');
+         //   var td2 = document.createElement('td');
+         //   var td3 = document.createElement('td');
+         //   var td4 = document.createElement('td');
+         //   var td5 = document.createElement('td');
        
-           var text1 = document.createTextNode(author);
-           var text2 = document.createTextNode(title);
-           var text3 = document.createTextNode(curator);
-           var text4 = document.createTextNode(publisher);
-           var text5 = document.createTextNode(placeName);
+         //   var text1 = document.createTextNode(author);
+         //   var text2 = document.createTextNode(title);
+         //   var text3 = document.createTextNode(curator);
+         //   var text4 = document.createTextNode(publisher);
+         //   var text5 = document.createTextNode(placeName);
        
-           td1.appendChild(text1);
-           td2.appendChild(text2);
-           td3.appendChild(text3);
-           td4.appendChild(text4);
-           td5.appendChild(text5);
-           tr.appendChild(td1);
-           tr.appendChild(td2);
-           tr.appendChild(td3);
-           tr.appendChild(td4);
-           tr.appendChild(td5);
+         //   td1.appendChild(text1);
+         //   td2.appendChild(text2);
+         //   td3.appendChild(text3);
+         //   td4.appendChild(text4);
+         //   td5.appendChild(text5);
+         //   tr.appendChild(td1);
+         //   tr.appendChild(td2);
+         //   tr.appendChild(td3);
+         //   tr.appendChild(td4);
+         //   tr.appendChild(td5);
        
-           table.appendChild(tr);
+         //   table.appendChild(tr);
           
            
         }
+        printList.scrollIntoView();
         
        //  document.getElementById("result").innerHTML=r ;
         

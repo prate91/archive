@@ -1,4 +1,7 @@
 const url= "https://imagoarchive.it/fuseki/imago/query?output=json&query=";
+const named_graph = "https://imagoarchive.it/fuseki/imago/archive";
+// const url= "http://localhost:3030/imago/query?output=json&query=";
+// const named_graph = "http://localhost:3030/imago/archive";
 
 // Wait for the page to load
 document.addEventListener('DOMContentLoaded', function () {
@@ -22,6 +25,7 @@ function searchLemmas() {
     console.log(y.value);
     // y.value = x.value.toUpperCase();
     
+    
     // Set request headers
     let headers = new Headers();
     //headers.append('X-CSRFToken', csrf);
@@ -34,18 +38,19 @@ function searchLemmas() {
 	"PREFIX ecrm: <http://erlangen-crm.org/200717/>" +
 	"PREFIX ilrm: <http://imagoarchive.it/ilrmoo/>" +
 	"PREFIX : <https://imagoarchive.it/ontology/>" +
-	"SELECT ?exp_cre ?title ?authorName " +
-	"FROM <https://imagoarchive.it/fuseki/imago/archive>" +
+	"SELECT ?exp_cre ?title ?authorName ?alias " +
+	"FROM <"+named_graph+">" +
 	"WHERE {" +
 	"  ?exp_cre a ilrm:F28_Expression_Creation ;" +
 	"  		 ilrm:R17_created ?work ;" +
 	"  		 ecrm:P14_carried_out_by ?author .	" +
 	"  ?author a :Author ;" +
-	"     ecrm:P1_is_identified_by/ecrm:P190_has_symbolic_content ?authorName ." +
+	"     ecrm:P1_is_identified_by/ecrm:P190_has_symbolic_content ?authorName ;" +
+	"     ecrm:P1_is_identified_by/:has_alias ?alias ." +
 	"  ?work a ilrm:F2_Expression ;" +
 	"     ecrm:P102_has_title/ecrm:P190_has_symbolic_content ?title ." +
 	"  FILTER regex(?title, \""+y.value+"\",\"i\") " +
-	"  FILTER regex(?authorName, \""+x.value+"\", \"i\") " +
+	"  FILTER (regex(?authorName, \""+x.value+"\", \"i\") || regex(?alias, \""+x.value+"\", \"i\")) " +
 	"} ORDER BY ?authorName ?title ";
 
     
@@ -74,33 +79,62 @@ fetch(query,
         var r = ""
         var list = document.getElementById("results-list");
         list.innerHTML="";
+        console.log(context.results.bindings);
+        old_iri_lemma = "";
         for (var i=0; i<context.results.bindings.length; i++) {
             title = context.results.bindings[i].title.value;
             author = context.results.bindings[i].authorName.value;
+            alias = context.results.bindings[i].alias.value;
             iri_lemma = context.results.bindings[i].exp_cre.value;
+            // if(old_iri_lemma == iri_lemma){
+            //     listaalias
+
+            // }
+            if(old_iri_lemma != iri_lemma){
+            alias_list = ""
             // r += author + " - " + title +"<br>";
             var li = document.createElement('li');   
             li.className = 'list-group-item d-flex justify-content-between align-items-start';
             var div1 = document.createElement('div');
             div1.className = 'ms-2 me-auto';
             var div2 = document.createElement('div');
+            div2.className = "markcontext"
             var a = document.createElement('a'); 
             a.href = "lemma.html?lemma=" + iri_lemma;
+            a.className = "markcontextwork"
+            var spanAlias = document.createElement('small');   
+            spanAlias.className = 'text-muted';
         
             var text1 = document.createTextNode(author);
-            var text2 = document.createTextNode(title);
-        
-            a.appendChild(text2);
+            var text2 =  document.createTextNode(" aliases: " + alias);
+            var text3 = document.createTextNode(title);
+            
+            
+            
+            spanAlias.appendChild(text2);
+            a.appendChild(text3);
             div2.appendChild(text1);
+            div2.appendChild(document.createElement('br'));
+            div2.appendChild(spanAlias);
             div1.appendChild(div2);
             div1.appendChild(a);
             li.appendChild(div1);
         
             list.appendChild(li);
+
+            old_iri_lemma = iri_lemma;
+            }
+          
+           
+            
            
             
          }
-         
+         var markInstance = new Mark(document.querySelectorAll(".markcontext"));
+         var markInstancework = new Mark(document.querySelectorAll(".markcontextwork"));
+         markInstance.mark(x.value);
+         markInstancework.mark(y.value);
+           
         //  document.getElementById("result").innerHTML=r ;
          
 

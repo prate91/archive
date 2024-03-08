@@ -1,5 +1,7 @@
 const url= "https://imagoarchive.it/fuseki/imago/query?output=json&query=";
-// import data from './../geojson/provinces.geojson' assert { type: 'json' };
+const named_graph = "https://imagoarchive.it/fuseki/imago/archive";
+// const url= "http://localhost:3030/imago/query?output=json&query=";
+// const named_graph = "http://localhost:3030/imago/archive";
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -19,7 +21,7 @@ var get_works = "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>" +
 "PREFIX ilrm: <http://imagoarchive.it/ilrmoo/>" +
 "PREFIX : <https://imagoarchive.it/ontology/>" +
 "SELECT ?placeName ?coord ?libraryName ?library " +
-"FROM <https://imagoarchive.it/fuseki/imago/archive>" +
+"FROM <"+named_graph+">" +
 "WHERE {" +
 "  " +
 "  ?library ecrm:P74_has_current_or_former_residence ?libraryPlace ;" +
@@ -91,8 +93,9 @@ fetch(query,
          // }
 
          // console.log(data[key])
-         if(data[key].coord.value!="POINT( )"){
-            if(data[key].coord.value!="POINT(null null)"){
+         if(data[key].coord.value!=""){
+            // if(data[key].coord.value!="POINT(null null)"){
+               
               console.log(data[key].coord.value);
                  
                //   if(data[key].pleiades != null ){
@@ -147,7 +150,7 @@ fetch(query,
                var coord = parseWKT(data[key].coord.value);
                
                
-                var mark= L.marker([coord[2],coord[1]], {icon: greenIcon}).bindPopup("</br><b>Luogo:</b> "+ data[key].placeName.value +"<br/>"+ "<b>Biblioteca:</b> " + data[key].libraryName.value +"<br/><br/>"+ "<button class='show-manuscript' data-iri='"+data[key].library.value+"' onclick='showManuscripts(this)'>Mostra manoscritti</button> ").addTo(mcg) // Add into the MCG instead of directly to the map.
+                var mark= L.marker([coord[2],coord[1]], {icon: greenIcon}).bindPopup("<div style='font-size:14px;'><br />Luogo: <b>"+ data[key].placeName.value +"</b><br/>Biblioteca: <b>" + data[key].libraryName.value +"</b><br/><br/>"+ "<button type='button' class='btn btn-sm btn-primary show-manuscript' data-iri='"+data[key].library.value+"' onclick='showManuscripts(this)'>Mostra manoscritti</button></div> ").addTo(mcg) // Add into the MCG instead of directly to the map.
                 
                
 
@@ -158,7 +161,7 @@ fetch(query,
          
          }
          
-     }
+     
    }
      mcg.addTo(map);
         
@@ -183,7 +186,7 @@ fetch(query,
 
     function parseWKT(string){
       // let text = '27 months';
-      let regex = /POINT\((?<longitude>-?\d+\.\d+) (?<latitude>-?\d+\.\d+)\)/;
+      let regex = /Point\((?<longitude>-?\d+\.\d+) (?<latitude>-?\d+\.\d+)\)/;
       return [longitude, latitudeunit] = regex.exec(string) || [];
     
   }
@@ -216,8 +219,8 @@ function showManuscripts(btn_manuscripts) {
 	"PREFIX ecrm: <http://erlangen-crm.org/200717/>" +
 	"PREFIX ilrm: <http://imagoarchive.it/ilrmoo/>" +
 	"PREFIX : <https://imagoarchive.it/ontology/>" +
-	"SELECT ?title ?authorName ?libraryName ?signature " +
-	"FROM <https://imagoarchive.it/fuseki/imago/archive>" +
+	"SELECT ?manuscript ?placeName ?libraryName ?signature ?folios " +
+	"FROM <"+named_graph+">" +
 	"WHERE {" +
 	"  BIND(<"+ data_iri +"> AS ?library)" +
 	"  ?exp_cre a ilrm:F28_Expression_Creation ;" +
@@ -263,63 +266,93 @@ fetch(query,
        */
        // document.getElementById("result").innerHTML=context.results;
 
-       var r = ""
-       var table = document.getElementById("results-table");
-       table.innerHTML="";
-       var tr = document.createElement('tr');   
+      //  var r = ""
+      //  var table = document.getElementById("results-table");
+      //  table.innerHTML="";
+      //  var tr = document.createElement('tr');   
 
-       var th1 = document.createElement('th');
-       var th2 = document.createElement('th');
-       var th3 = document.createElement('th');
-       var th4 = document.createElement('th');
+      //  var th1 = document.createElement('th');
+      //  var th2 = document.createElement('th');
+      //  var th3 = document.createElement('th');
+      //  var th4 = document.createElement('th');
 
-       var textheader1 = document.createTextNode("Biblioteca");
-       var textheader2 = document.createTextNode("Segnatura");
-       var textheader3 = document.createTextNode("Autore");
-       var textheader4 = document.createTextNode("Titolo");
+      //  var textheader1 = document.createTextNode("Biblioteca");
+      //  var textheader2 = document.createTextNode("Segnatura");
+      //  var textheader3 = document.createTextNode("Autore");
+      //  var textheader4 = document.createTextNode("Titolo");
 
-       th1.appendChild(textheader1);
-       th2.appendChild(textheader2);
-       th3.appendChild(textheader3);
-       th4.appendChild(textheader4);
-       tr.appendChild(th1);
-       tr.appendChild(th2);
-       tr.appendChild(th3);
-       tr.appendChild(th4);
+      //  th1.appendChild(textheader1);
+      //  th2.appendChild(textheader2);
+      //  th3.appendChild(textheader3);
+      //  th4.appendChild(textheader4);
+      //  tr.appendChild(th1);
+      //  tr.appendChild(th2);
+      //  tr.appendChild(th3);
+      //  tr.appendChild(th4);
    
-       table.appendChild(tr);
+      //  table.appendChild(tr);
 
-       for (var i=0; i<context.results.bindings.length; i++) {
-           title = context.results.bindings[i].title.value;
-           author = context.results.bindings[i].authorName.value;
-           signature = context.results.bindings[i].signature.value;
-           libraryName = context.results.bindings[i].libraryName.value;
-           // r += author + " - " + title +"<br>";
-           var tr = document.createElement('tr');   
+       var manList = document.getElementById("manuscript-list");
+       manList.innerHTML="";
+        // var work = document.getElementById("work");
+        // var genresP = document.getElementById("genres");
+        // var placesP = document.getElementById("places");
+       
 
-           var td1 = document.createElement('td');
-           var td2 = document.createElement('td');
-           var td3 = document.createElement('td');
-           var td4 = document.createElement('td');
+        
+        // var r = ""
+        // var table = document.getElementById("results-table");
+        // table.innerHTML="";
+        for (var i=0; i<context.results.bindings.length; i++) {
+            iri_manuscript = context.results.bindings[i].manuscript.value;
+            place = context.results.bindings[i].placeName.value;
+            library = context.results.bindings[i].libraryName.value;
+            signatureName = context.results.bindings[i].signature.value;
+            // places = context.results.bindings[i].places.value;
+
+
+            li = document.createElement('li');
+            li.className = "list-group-item";
+            var a = document.createElement('a'); 
+            a.href = "manuscript.html?manuscript=" + iri_manuscript;
+            text = document.createTextNode(place + ", " + library + ", " + signatureName);
+            a.appendChild(text);
+            li.appendChild(a);
+
+            manList.appendChild(li);
+
+      //  for (var i=0; i<context.results.bindings.length; i++) {
+      //      title = context.results.bindings[i].title.value;
+      //      author = context.results.bindings[i].authorName.value;
+      //      signature = context.results.bindings[i].signature.value;
+      //      libraryName = context.results.bindings[i].libraryName.value;
+      //      // r += author + " - " + title +"<br>";
+      //      var tr = document.createElement('tr');   
+
+      //      var td1 = document.createElement('td');
+      //      var td2 = document.createElement('td');
+      //      var td3 = document.createElement('td');
+      //      var td4 = document.createElement('td');
        
-           var text1 = document.createTextNode(libraryName);
-           var text2 = document.createTextNode(signature);
-           var text3 = document.createTextNode(author);
-           var text4 = document.createTextNode(title);
+      //      var text1 = document.createTextNode(libraryName);
+      //      var text2 = document.createTextNode(signature);
+      //      var text3 = document.createTextNode(author);
+      //      var text4 = document.createTextNode(title);
        
-           td1.appendChild(text1);
-           td2.appendChild(text2);
-           td3.appendChild(text3);
-           td4.appendChild(text4);
-           tr.appendChild(td1);
-           tr.appendChild(td2);
-           tr.appendChild(td3);
-           tr.appendChild(td4);
+      //      td1.appendChild(text1);
+      //      td2.appendChild(text2);
+      //      td3.appendChild(text3);
+      //      td4.appendChild(text4);
+      //      tr.appendChild(td1);
+      //      tr.appendChild(td2);
+      //      tr.appendChild(td3);
+      //      tr.appendChild(td4);
        
-           table.appendChild(tr);
+      //      table.appendChild(tr);
           
            
         }
+        manList.scrollIntoView();
         
        //  document.getElementById("result").innerHTML=r ;
         

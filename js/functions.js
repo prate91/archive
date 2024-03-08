@@ -5,6 +5,7 @@ function parseWKT(string){
 
 }
 
+
 function addIconArrows(){
   var img = document.createElement('img');
   img.src = "images/sort.png";
@@ -391,4 +392,97 @@ link.setAttribute('download', filename);
 document.body.appendChild(link);
 link.click();
 document.body.removeChild(link);
+}
+
+// Quick and simple export target #table_id into a csv
+function download_list_as_csv(table_id, separator = ',') {
+  // Select rows from table_id
+
+  var rows = document.getElementById(table_id).querySelectorAll('li');
+
+  // Construct csv
+  var csv = [];
+  for (var i = 0; i < rows.length; i++) {
+      var row = [], cols = rows[i].querySelectorAll('.listDiv');
+      for (var j = 0; j < cols.length; j++) {
+          var iri = cols[j].getElementsByTagName('a')[0].textContent;
+          var data = cols[j].getElementsByTagName('div')[0].textContent;
+          console.log(data)
+          console.log(iri)
+          // Clean innertext to remove multiple spaces and jumpline (break csv)
+          // var data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ')
+          // Escape double-quote with double-double-quote (see https://stackoverflow.com/questions/17808511/properly-escape-a-double-quote-in-csv)
+          data = data.replace(/"/g, '""');
+
+          // Push escaped string
+          row.push('"' + data + '"');
+          row.push('"' + iri + '"');
+      }
+      csv.push(row.join(separator));
+  }
+  var csv_string = csv.join('\n');
+  // Download it
+  var filename = 'export_' + table_id + '_' + new Date().toLocaleDateString() + '.csv';
+  var link = document.createElement('a');
+  link.style.display = 'none';
+  link.setAttribute('target', '_blank');
+  link.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv_string));
+  link.setAttribute('download', filename);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  }
+
+  function linkifySources(inputText) {
+    var replacedText, replacePattern1, replacePattern2, replacePattern3;
+    var ul = document.createElement('ul');
+    var new_ul = document.createElement('ul');
+    ul.innerHTML= inputText;
+
+    var li = ul.getElementsByTagName('li');
+    // console.log(li);
+    
+    var new_text = "";
+
+    for (var i = 0; i < li.length; i++) {
+      var new_li = document.createElement('li');
+      var a = li[i].getElementsByTagName('a')[0];
+      
+      searchText = li[i].querySelector('a').nextSibling.data.trim();
+
+      // console.log(searchText);
+      // console.log(a);
+
+      replacePatternComma = /,\s*$/;
+      replacedText = searchText.replace(replacePatternComma, '');
+  
+      //URLs starting with http://, https://, or ftp://
+      replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+      replacedText = replacedText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+      
+
+      //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+      replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+      replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
+
+      //Change email addresses to mailto:: links.
+      replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+      replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
+
+      // console.log(replacedText);
+      
+      new_li.appendChild(a);
+      var wrapper = document.createElement('span');
+        wrapper.innerHTML = replacedText;
+
+      // new_li.insertAdjacentHTML('afterend', replacedText);
+      new_li.appendChild(wrapper);
+      // console.log(new_li);
+      new_ul.appendChild(new_li);
+    
+    }
+
+    
+    // console.log(new_text);
+    return new_ul;
 }

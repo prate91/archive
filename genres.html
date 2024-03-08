@@ -50,6 +50,7 @@
 		<meta name="description" content="Pagina cerca dell'applicazione web del progetto PRIN IMAGO" />
 		<meta name="keywords" content="" />
 		<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900' rel='stylesheet' type='text/css'>
+		<link rel="icon" type="image/x-icon" href="../favicon.ico">
 
 		<!-- Libraries -->
 
@@ -60,6 +61,7 @@
 		<link rel="stylesheet" href="libs/selectize/0.12.6/selectize.bootstrap3.min.css" />
 		<link rel="stylesheet" href="libs/bootstrap/5.0.2/boots	trap.min.css" />
 
+		
 		<!-- Linear Libraries -->
 		<script src="js/skel.min.js"></script>
 		<script src="js/skel-panels.min.js"></script>
@@ -89,15 +91,50 @@
 	<body>
 
 	<!-- Header -->
-	<div w3-include-html="html/header_it.html"></div>
+	<div id="header">
+		<div id="nav-wrapper"> 
+			<nav id="nav">
+				<ul>
+					<li><a href="../index.html">Homepage</a></li>
+					<li class="dropdown" >
+						<a href="../archivio.html" class="dropbtn">Archivio</a>
+						<div class="dropdown-content">
+						<a href="../archive/">Opere geografiche</a>
+						<a href="../toponimi/">Toponimi Danteschi</a>
+						<a href="../storymaps.html">Story Maps</a>
+						</div>
+					</li>
+					<li class="dropdown" >
+						<a href="javascript:void(0)" class="dropbtn">Progetto</a>
+						<div class="dropdown-content">
+						<a href="../gruppo.html">Gruppo di Ricerca</a>
+						<a href="../bibliografia.html">Bibliografia</a>
+						<a href="../doc/index-en.html">Ontologia</a>
+						<a href="../sparql/">SPARQL endpoint</a>
+						</div>
+					</li>
+					<li ><a href="../pubblicazioni.html">Pubblicazioni</a></li>
+					<li><a href="../en/toponyms/works.html"><span class="flag-icon"><img src="images/united-kingdom.png" alt=""></span>English version</a></li>
+				</ul>
+			</nav>
+		</div>
+		<div class="container"> 
+			<!-- Logo -->
+				<img alt="Imago logo" src="../images/IMAGObianco-orizzontale2.svg"/>
+		</div>
+	</div>
+	<!-- Header -->
 
 	<!-- Main -->
 		<div id="main">
 			<div id="content" class="container">
-				<ul class="breadcrumb">
-					<li><a href="index.html">Home archivio di IMAGO</a></li>
-					<li>Ricerca per genere</li>
-				  </ul>
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="index.html">Opere geografiche</a></li>
+					  <li id="id-man-bread" class="breadcrumb-item active" aria-current="page">Ricerca per genere</li>
+					</ol>
+				  </nav>
+			
 				  
 				<section>
 						<h2>Ricerca lemmi per genere</h2>
@@ -129,7 +166,7 @@
 							<!-- <table class="toponyms-table table-responsive" id="toponyms-place"></table> -->
 						</div>
 						<div class="card-footer footer-table">
-							<a id="download-toponyms-place" class="dowload-csv" href="#" onclick="download_table_as_csv('toponyms-place');">Scarica come CSV</a>
+							<a id="download-toponyms-place" class="dowload-csv" href="#" onclick="download_list_as_csv('results-list-genres');">Scarica come CSV</a>
 						</div>
 					</div>
 
@@ -143,7 +180,8 @@
 					<a id="download-toponyms-table" class="dowload-csv" href="#" onclick="download_table_as_csv('toponyms-table');">Scarica come CSV</a> -->
 					
 			</section>
-				<section>
+			<div w3-include-html="html/altre_ricerche.html"></div>
+				<!-- <section>
 					<header>
 					</header>
 					<span class="icon"><img src="images/tools.png" alt=""></span>
@@ -159,7 +197,7 @@
 						<a href="opere.html" class="button centered">Per opera</a>
 						
 						<p>Seleziona l'opera e visualizza i <strong>toponimi</strong>, le <strong>occorrenze</strong>, i <strong>luoghi testuali</strong> e i <strong>contesti</strong>.</p>
-					</section>
+					</section> -->
 					<!-- <section class="4u">
 						<a href="#" class="button centered">Per autore</a>
 						

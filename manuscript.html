@@ -88,7 +88,39 @@
 	<body>
 
 	<!-- Header -->
-	<div w3-include-html="html/header_it.html"></div>
+	<div id="header">
+		<div id="nav-wrapper"> 
+			<nav id="nav">
+				<ul>
+					<li><a href="../index.html">Homepage</a></li>
+					<li class="dropdown" >
+						<a href="../archivio.html" class="dropbtn">Archivio</a>
+						<div class="dropdown-content">
+						<a href="../archive/">Opere geografiche</a>
+						<a href="../toponimi/">Toponimi Danteschi</a>
+						<a href="../storymaps.html">Story Maps</a>
+						</div>
+					</li>
+					<li class="dropdown" >
+						<a href="javascript:void(0)" class="dropbtn">Progetto</a>
+						<div class="dropdown-content">
+						<a href="../gruppo.html">Gruppo di Ricerca</a>
+						<a href="../bibliografia.html">Bibliografia</a>
+						<a href="../doc/index-en.html">Ontologia</a>
+						<a href="../sparql/">SPARQL endpoint</a>
+						</div>
+					</li>
+					<li ><a href="../pubblicazioni.html">Pubblicazioni</a></li>
+					<li><a href="../en/toponyms/works.html"><span class="flag-icon"><img src="images/united-kingdom.png" alt=""></span>English version</a></li>
+				</ul>
+			</nav>
+		</div>
+		<div class="container"> 
+			<!-- Logo -->
+				<img alt="Imago logo" src="../images/IMAGObianco-orizzontale2.svg"/>
+		</div>
+	</div>
+	<!-- Header -->
 
 	<!-- Main -->
 		<div id="main">
@@ -109,66 +141,76 @@
 					<!-- <select id="select-state" placeholder="Scegli un'opera..."></select> -->
 				<!-- </section> -->
 				
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="index.html">Opere geografiche</a></li>
+					  <li class="breadcrumb-item"><a href="search.html">Cerca</a></li>
+					  <li class="breadcrumb-item"><a id="id-lemma-bread" href="#">Lemma</a></li>
+					  <li id="id-man-bread" class="breadcrumb-item active" aria-current="page">Manoscritto</li>
+					</ol>
+				  </nav>
+
 				<div class="card">
 					<div class="card-header">
-					  Manoscritto (rdf:type :Manuscript)
+					  Manoscritto
 					</div>
 					<div class="card-body">
 					  <h5 id="id-man" class="card-title"></h5>
+					  
 					  <dl class="row">
-						<dt class="col-sm-3">Autore come compare nel manoscritto</dt>
-						<dd class="col-sm-9"><span id="author"></span></dd>
+						<dt class="col-sm-4 font-weight-bold">Autore come compare nel manoscritto</dt>
+						<dd class="col-sm-8 border-bottom"><span id="author"></span></dd>
 					  
-						<dt class="col-sm-3">Titolo come compare nel manoscritto</dt>
-						<dd class="col-sm-9"><span id="work"></span></dd>
+						<dt class="col-sm-4">Titolo come compare nel manoscritto</dt>
+						<dd class="col-sm-8  border-bottom"><span id="work"></span></dd>
 					  
-						<dt class="col-sm-3">Località Biblioteca</dt>
-						<dd class="col-sm-9"><span id="place-libriary"></span></dd>
+						<dt class="col-sm-4">Località Biblioteca</dt>
+						<dd class="col-sm-8 border-bottom"><span id="place-libriary"></span></dd>
 					  
-						<dt class="col-sm-3">Biblioteca</dt>
-						<dd class="col-sm-9"><span id="library"></span></dd>
+						<dt class="col-sm-4">Biblioteca</dt>
+						<dd class="col-sm-8 border-bottom"><a id="libraryUrl"><span id="library"></span></a></dd>
 
-						<dt class="col-sm-3">Segnatura</dt>
-						<dd class="col-sm-9"><span id="signature"></span></dd>
+						<dt class="col-sm-4">Segnatura</dt>
+						<dd class="col-sm-8 border-bottom"><span id="signature"></span></dd>
 					  
-						<dt class="col-sm-3">Fogli</dt>
-						<dd class="col-sm-9"><span id="folios"></span></dd>
+						<dt class="col-sm-4">Fogli</dt>
+						<dd class="col-sm-8 border-bottom"><span id="folios"></span></dd>
 
-						<dt class="col-sm-3">Datazione</dt>
-						<dd class="col-sm-9"><span id="datazione"></span></dd>
+						<dt class="col-sm-4">Datazione</dt>
+						<dd class="col-sm-8 border-bottom"><span id="datazione"></span></dd>
 					  
-						<dt class="col-sm-3">Incipit dedica/proemio</dt>
-						<dd class="col-sm-9"><span id="incipit-ded"></span></dd>
+						<dt class="col-sm-4">Incipit dedica/proemio</dt>
+						<dd class="col-sm-8 border-bottom"><span id="incipit-ded"></span></dd>
 					  
-						<dt class="col-sm-3">Explicit dedica/proemio</dt>
-						<dd class="col-sm-9"><span id="explicit-ded"></span></dd>
+						<dt class="col-sm-4">Explicit dedica/proemio</dt>
+						<dd class="col-sm-8 border-bottom"><span id="explicit-ded"></span></dd>
 
-						<dt class="col-sm-3">Incipit testo</dt>
-						<dd class="col-sm-9"><span id="incipit-text"></span></dd>
+						<dt class="col-sm-4">Incipit testo</dt>
+						<dd class="col-sm-8 border-bottom"><span id="incipit-text"></span></dd>
 					  
-						<dt class="col-sm-3">Explicit testo</dt>
-						<dd class="col-sm-9"><span id="explicit-text"></span></dd>
+						<dt class="col-sm-4">Explicit testo</dt>
+						<dd class="col-sm-8 border-bottom"><span id="explicit-text"></span></dd>
 					  
-						<dt class="col-sm-3">Decorazione apparato iconografico</dt>
-						<dd class="col-sm-9"><span id="decoration"></span></dd>
+						<dt class="col-sm-4">Decorazione apparato iconografico</dt>
+						<dd class="col-sm-8 border-bottom"><span id="decoration"></span></dd>
 					  
-						<dt class="col-sm-3">Link al manoscritto</dt>
-						<dd class="col-sm-9"><span id="link-man"></span></dd>
+						<dt class="col-sm-4">Link al manoscritto</dt>
+						<dd class="col-sm-8 border-bottom"><span id="link-man"></span></dd>
 
-						<dt class="col-sm-3">Link alla descrizione del manoscritto</dt>
-						<dd class="col-sm-9"><span id="link-desc"></span></dd>
+						<dt class="col-sm-4">Link alla descrizione del manoscritto</dt>
+						<dd class="col-sm-8 border-bottom"><span id="link-desc"></span></dd>
 					  
-						<dt class="col-sm-3">Fonti secondarie</dt>
-						<dd class="col-sm-9"><span id="sources"></span></dd>
+						<dt class="col-sm-4">Fonti secondarie</dt>
+						<dd class="col-sm-8 border-bottom"><span id="sources"></span></dd>
 
-						<dt class="col-sm-3">Altre eventuali notizie</dt>
-						<dd class="col-sm-9"><span id="notes"></span></dd>
+						<dt class="col-sm-4">Altre eventuali notizie</dt>
+						<dd class="col-sm-8 border-bottom"><span id="notes"></span></dd>
 					  
-						<dt class="col-sm-3">Schedatore</dt>
-						<dd class="col-sm-9"><span id="user"></span></dd>
+						<dt class="col-sm-4">Schedatore</dt>
+						<dd class="col-sm-8 border-bottom"><span id="user"></span></dd>
 
-						<dt class="col-sm-3">Ultima modifica</dt>
-						<dd class="col-sm-9"><span id="last-mod"></span></dd>
+						<dt class="col-sm-4">Ultima modifica</dt>
+						<dd class="col-sm-8"><span id="last-mod"></span></dd>
 					  </dl>
 					</div>
 				  </div>
@@ -216,30 +258,7 @@
 
 
 
-				<section>
-					<header>
-					</header>
-					<span class="icon"><img src="images/tools.png" alt=""></span>
-					<h2 class="onside">Altre ricerche</h2>
-				</section>
-				<div class="row">
-					<section class="6u">
-						<a href="toponimi.html" class="button centered">Per toponimo</a>
-						
-						<p>Ricerca le <strong>occorrenze</strong>, i <strong>luoghi</strong> del testo e i <strong>contesti</strong> di un toponimo.</p>
-					</section>				
-					<section class="6u">
-						<a href="#" class="button centered">Per opera</a>
-						
-						<p>Seleziona l'opera e visualizza i <strong>toponimi</strong>, le <strong>occorrenze</strong>, i <strong>luoghi testuali</strong> e i <strong>contesti</strong>. </p>
-					</section>
-					<!-- <section class="4u">
-						<a href="autori.html" class="button centered">Per autore</a>
-						
-						<p>Seleziona l'autore e visualizza i <strong>toponimi</strong> citati nelle sue opere.</p>
-					</section>		 -->
 				
-				</div>
 			</div>
 		</div>
 	<!-- /Main -->
