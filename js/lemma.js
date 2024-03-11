@@ -321,6 +321,17 @@ fetch(query_prin,
         try{publisherName = context.results.bindings[i].publisher.value;} catch{ publisherName = ""}
         try{datazione = context.results.bindings[i].l_datazione.value;} catch{ datazione = ""}
         // places = context.results.bindings[i].places.value;
+        if(place==""){
+            place = "[s.l.]"; 
+         }
+
+         if(publisherName==""){
+            publisherName = "[s.t.]"; 
+         }
+        
+        if(datazione==""){
+           datazione = "[s.d.]"; 
+        }
 
         li = document.createElement('li');
         li.className = "list-group-item";
