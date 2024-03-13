@@ -126,7 +126,7 @@ let headers = new Headers();
                 li = document.createElement('li');
                 li.className = "list-group-item";
                 var a = document.createElement('a'); 
-                a.href = "author.html?author=" + iri_author;
+                a.href = "author.html?iri=" + iri_author;
                 text = document.createTextNode(name_author);
                 d = document.createTextNode(name_aliases);
                 c = document.createTextNode(String(i+1));
@@ -248,7 +248,7 @@ fetch(query,
             var div2 = document.createElement('div');
             div2.className = "markcontext"
             var a = document.createElement('a'); 
-            a.href = "lemma.html?lemma=" + iri_lemma;
+            a.href = "lemma.html?iri=" + iri_lemma;
             a.className = "markcontextwork"
             var spanAlias = document.createElement('small');   
             spanAlias.className = 'text-muted';

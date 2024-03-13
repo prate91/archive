@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
 var urlParams = new URLSearchParams(window.location.search);
 
 // Get value of single parameter
-var sectionName = urlParams.get('library');
+var sectionName = urlParams.get('iri');
 
 // Output value to console
 console.log(sectionName);
@@ -82,7 +82,7 @@ fetch(query,
             idLemmaBread.textContent = library_name;
             placeNameSpan.textContent = place_name;
             librarySpan.textContent = library_name;
-            placeA.href = "place.html?place=" + libraryPlace_iri;
+            placeA.href = "place.html?iri=" + libraryPlace_iri;
             
             // r += author + " - " + title +"<br>";
             // var tr = document.createElement('tr');   
@@ -193,7 +193,7 @@ fetch(query_man,
             li = document.createElement('li');
             li.className = "list-group-item";
             var a = document.createElement('a'); 
-            a.href = "manuscript.html?manuscript=" + iri_manuscript;
+            a.href = "manuscript.html?iri=" + iri_manuscript;
             if(foliosName!=""){
                 text = document.createTextNode(place + ", " + library + ", " + signatureName + ", " + foliosName);
             } else {

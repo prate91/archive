@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
 var urlParams = new URLSearchParams(window.location.search);
 
 // Get value of single parameter
-var sectionName = urlParams.get('author');
+var sectionName = urlParams.get('iri');
 
 // Output value to console
 console.log(sectionName);
@@ -180,7 +180,7 @@ fetch(query_man,
             li = document.createElement('li');
             li.className = "list-group-item";
             var a = document.createElement('a'); 
-            a.href = "lemma.html?lemma=" + iri_work;
+            a.href = "lemma.html?iri=" + iri_work;
             text = document.createTextNode(title);
             a.appendChild(text);
             li.appendChild(a);

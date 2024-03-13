@@ -298,7 +298,7 @@ fetch(query,
          li = document.createElement('li');
          li.className = "list-group-item";
          var a = document.createElement('a'); 
-         a.href = "lemma.html?lemma=" + iri_lemma;
+         a.href = "lemma.html?iri=" + iri_lemma;
          text = document.createTextNode(author + ", " + title);
          a.appendChild(text);
          li.appendChild(a);

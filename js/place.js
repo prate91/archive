@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
 var urlParams = new URLSearchParams(window.location.search);
 
 // Get value of single parameter
-var sectionName = urlParams.get('place');
+var sectionName = urlParams.get('iri');
 
 // Output value to console
 console.log(sectionName);
@@ -172,7 +172,7 @@ fetch(query_man,
             li = document.createElement('li');
             li.className = "list-group-item";
             var a = document.createElement('a'); 
-            a.href = "library.html?library=" + library_iri;
+            a.href = "library.html?iri=" + library_iri;
             text = document.createTextNode(library_name);
             a.appendChild(text);
             li.appendChild(a);
@@ -288,7 +288,7 @@ fetch(query_man,
         li = document.createElement('li');
         li.className = "list-group-item";
         var a = document.createElement('a'); 
-        a.href = "lemma.html?lemma=" + iri_work;
+        a.href = "lemma.html?iri=" + iri_work;
         text = document.createTextNode(name_author + ", " + title);
         a.appendChild(text);
         li.appendChild(a);
@@ -350,16 +350,14 @@ var search_print = "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>" +
 	" 				 ecrm:P106_is_composed_of/ecrm:P190_has_symbolic_content ?print_author ;" +
 	"   				 ecrm:P102_has_title/ecrm:P190_has_symbolic_content ?print_title ." +
 	"  ?print_creation ilrm:R24_created ?print_edition ." +
-   "  OPTIONAL{ ?printEditionCreation ecrm:P4_has_time-span/ecrm:P170i_time_is_defined_by ?l_datazione . }" +
-	"                  OPTIONAL{" +
-	"                 ?print_creation  :has_curator/ecrm:P1_is_identified_by/ecrm:P190_has_symbolic_content ?curator ." +
+    "  OPTIONAL{ ?printEditionCreation ecrm:P4_has_time-span/ecrm:P170i_time_is_defined_by ?l_datazione . }" +
+	"  OPTIONAL{" +
+	"  ?print_creation  :has_curator/ecrm:P1_is_identified_by/ecrm:P190_has_symbolic_content ?curator ." +
 	"  }" +
-	"                     " +
-	"                 ?print_creation  ecrm:P7_took_place_at ?toponym ." +
-	"        ?toponym :is_identified_by_toponym/ecrm:P190_has_symbolic_content ?placeName ." +
-	"  " +
-	"                OPTIONAL{" +
-	"                 ?print_creation :has_publisher/ecrm:P1_is_identified_by/ecrm:P190_has_symbolic_content ?publisher ." +
+	"  ?print_creation  ecrm:P7_took_place_at ?toponym ." +
+	"  ?toponym :is_identified_by_toponym/ecrm:P190_has_symbolic_content ?placeName ." +
+	"   OPTIONAL{" +
+	"   ?print_creation :has_publisher/ecrm:P1_is_identified_by/ecrm:P190_has_symbolic_content ?publisher ." +
 	"  }" +
 	"}";
 
@@ -397,19 +395,32 @@ fetch(query_prin,
     // table.innerHTML="";
     if(context.results.bindings.length==0){
         text = document.createTextNode("questo luogo non è il luogo di edizione di nessuna edizione a stampa");
-        workList.appendChild(text);
+        printList.appendChild(text);
      }
     for (var i=0; i<context.results.bindings.length; i++) {
-        title = context.results.bindings[i].title.value;
-        name_author = context.results.bindings[i].authorName.value;
-        iri_work = context.results.bindings[i].exp_cre.value;
+        iri_print_edition = context.results.bindings[i].print_edition.value;
+        try{place = context.results.bindings[i].placeName.value;} catch{ place = ""}
+        try{publisherName = context.results.bindings[i].publisher.value;} catch{ publisherName = ""}
+        try{datazione = context.results.bindings[i].l_datazione.value;} catch{ datazione = ""}
+        // places = context.results.bindings[i].places.value;
+        if(place==""){
+            place = "[s.l.]"; 
+         }
+
+         if(publisherName==""){
+            publisherName = "[s.t.]"; 
+         }
+        
+        if(datazione==""){
+           datazione = "[s.d.]"; 
+        }   
 
 
         li = document.createElement('li');
         li.className = "list-group-item";
         var a = document.createElement('a'); 
-        a.href = "lemma.html?lemma=" + iri_work;
-        text = document.createTextNode(name_author + ", " + title);
+        a.href = "printEdition.html?iri=" + iri_print_edition;
+        text = document.createTextNode(place + ", " + publisherName + ", " + datazione);
         a.appendChild(text);
         li.appendChild(a);
 
