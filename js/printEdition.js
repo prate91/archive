@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
 var urlParams = new URLSearchParams(window.location.search);
 
 // Get value of single parameter
-var sectionName = urlParams.get('printEdition');
+var sectionName = urlParams.get('iri');
 
 // Output value to console
 console.log(sectionName);
@@ -29,7 +29,7 @@ console.log(sectionName);
 	"PREFIX ecrm: <http://erlangen-crm.org/200717/>" +
 	"PREFIX ilrm: <http://imagoarchive.it/ilrmoo/>" +
 	"PREFIX : <https://imagoarchive.it/ontology/>" +
-	"SELECT DISTINCT ?printEditionCreation ?printEdition ?exp_cre ?authorName ?titleWork ?l_author ?l_title ?l_curator ?l_place_print_edition ?l_coordinates ?l_place_name_as_appear ?l_date_print_edition ?l_publisher ?l_format ?l_pages ?l_figure ?l_notes ?l_prefatore ?l_edition ?l_date_edition ?l_primary_sources ?l_ecdotic ?l_sources ?l_other_contents ?annotator ?timestamp " +
+	"SELECT DISTINCT ?printEditionCreation ?printEdition ?exp_cre ?author ?authorName ?titleWork ?l_author ?l_title ?l_curator ?r_place_print_edition ?l_place_print_edition ?l_coordinates ?l_place_name_as_appear ?l_date_print_edition ?l_publisher ?l_format ?l_pages ?l_figure ?l_notes ?l_prefatore ?l_edition ?l_date_edition ?l_primary_sources ?l_ecdotic ?l_sources ?l_other_contents ?annotator ?timestamp " +
 	"FROM <"+named_graph+">" +
 	"WHERE {" +
 	"  BIND(<"+sectionName+"> AS ?printEdition) ." +
@@ -91,10 +91,12 @@ fetch(query,
         var idPrintEdition = document.getElementById("id-prin");
         var idPrintEditionBread = document.getElementById("id-prin-bread");
         var idLemmaBread = document.getElementById("id-lemma-bread");
+        var idLemmaAuthorBread = document.getElementById("id-lemma-author-bread");
         var authorSpan = document.getElementById("author");
         var workSpan = document.getElementById("work");
         var curatorSpan = document.getElementById("curator");
         var placeSpan = document.getElementById("place");
+        var placeA = document.getElementById("place-url");
         var placeAsAppearSpan = document.getElementById("place-as-appear");
         var dataSpan = document.getElementById("datazione");
         var publisherSpan = document.getElementById("publisher");
@@ -120,11 +122,13 @@ fetch(query,
         for (var i=0; i<context.results.bindings.length; i++) {
             try{titleOfWork = context.results.bindings[i].titleWork.value;} catch{ titleOfWork = "-"};
             try{authorOfWork = context.results.bindings[i].authorName.value;} catch{authorOfWork = "-"};
+            try{iri_author = context.results.bindings[i].author.value;} catch{iri_author = "-"};
             try{expressionCreation = context.results.bindings[i].exp_cre.value;} catch{expressionCreation = "-"};
             title = context.results.bindings[i].l_title.value;
-            author = context.results.bindings[i].l_author.value;
+            author_print = context.results.bindings[i].l_author.value;
             curator = context.results.bindings[i].l_curator.value;
             place = context.results.bindings[i].l_place_print_edition.value;
+            place_iri = context.results.bindings[i].r_place_print_edition.value;
             // coordinates = context.results.bindings[i].l_coordinates.value;
             placeAsAppear = context.results.bindings[i].l_place_name_as_appear.value;
             datazione = context.results.bindings[i].l_date_print_edition.value;
@@ -152,12 +156,15 @@ fetch(query,
 
             idPrintEdition.textContent = place + ", " + publisher + ", " + datazione;
             idPrintEditionBread.textContent = place + ", " + publisher + ", " + datazione;
-            idLemmaBread.textContent = authorOfWork + ", " + titleOfWork;
-            idLemmaBread.href = "lemma.html?lemma="+expressionCreation;
-            authorSpan.textContent = (author == "" || author == " ") ? "-" : author ;
+            idLemmaBread.textContent = titleOfWork;
+            idLemmaBread.href = "lemma.html?iri="+expressionCreation;
+            idLemmaAuthorBread.textContent = authorOfWork;
+            idLemmaAuthorBread.href = "author.html?iri=" + iri_author;
+            authorSpan.textContent = (author_print == "" || author_print == " ") ? "-" : author_print ;
             workSpan.textContent = (title == "" || title == " ") ? "-" : title ;
             curatorSpan.textContent = (curator == "" || curator == " ") ? "-" : curator ;
             placeSpan.textContent =(place == "" || place == " ") ? "-" : place ;
+            placeA.href = "place.html?iri="+place_iri ;
             // signatureSpan.textContent = coordinates;
             placeAsAppearSpan.textContent =(placeAsAppear == "" || placeAsAppear == " ") ? "-" : placeAsAppear ;
             dataSpan.textContent =(datazione == "" || datazione == " ") ? "-" : datazione ;

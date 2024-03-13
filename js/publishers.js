@@ -294,7 +294,7 @@ fetch(query,
          li = document.createElement('li');
          li.className = "list-group-item";
          var a = document.createElement('a'); 
-         a.href = "printEdition.html?printEdition=" + iri_print_edition;
+         a.href = "printEdition.html?iri=" + iri_print_edition;
          text = document.createTextNode(place + ", " + publisher + ", " + datazione);
          a.appendChild(text);
          li.appendChild(a);

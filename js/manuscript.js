@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
 var urlParams = new URLSearchParams(window.location.search);
 
 // Get value of single parameter
-var sectionName = urlParams.get('manuscript');
+var sectionName = urlParams.get('iri');
 
 // Output value to console
 console.log(sectionName);
@@ -29,7 +29,7 @@ console.log(sectionName);
 	"PREFIX ecrm: <http://erlangen-crm.org/200717/>" +
 	"PREFIX ilrm: <http://imagoarchive.it/ilrmoo/>" +
 	"PREFIX : <https://imagoarchive.it/ontology/>" +
-	"SELECT ?manuscript ?exp_cre ?authorName ?titleWork ?placeName ?library ?libraryName ?signature ?folios ?s_coordinates ?l_manuscript_author ?l_title ?l_incipit_dedication ?l_explicit_dedication ?l_incipit_text ?l_explicit_text ?l_date_manuscript ?l_sources ?l_url_manuscript ?l_url_manuscript_description ?l_notes ?l_decoration ?annotator ?timestamp " +
+	"SELECT ?manuscript ?exp_cre ?author ?authorName ?titleWork ?libraryPlace ?placeName ?library ?libraryName ?signature ?folios ?s_coordinates ?l_manuscript_author ?l_title ?l_incipit_dedication ?l_explicit_dedication ?l_incipit_text ?l_explicit_text ?l_date_manuscript ?l_sources ?l_url_manuscript ?l_url_manuscript_description ?l_notes ?l_decoration ?annotator ?timestamp " +
 	"FROM <"+named_graph+">" +
 	"WHERE {" +
 	"    BIND(<"+sectionName+"> AS ?manuscript)" +
@@ -128,9 +128,11 @@ fetch(query,
         var idManuscript = document.getElementById("id-man");
         var idManuscriptBread = document.getElementById("id-man-bread");
         var idLemmaBread = document.getElementById("id-lemma-bread");
+        var idLemmaAuthorBread = document.getElementById("id-lemma-author-bread");
         var authorSpan = document.getElementById("author");
         var workSpan = document.getElementById("work");
-        var placeLibriarySpan = document.getElementById("place-libriary");
+        var placeLibrarySpan = document.getElementById("place-libriary");
+        var placeLibraryA = document.getElementById("place-library-url");
         var librarySpan = document.getElementById("library");
         var libraryA = document.getElementById("libraryUrl");
         var signatureSpan = document.getElementById("signature");
@@ -156,10 +158,12 @@ fetch(query,
         for (var i=0; i<context.results.bindings.length; i++) {
             try{titleOfWork = context.results.bindings[i].titleWork.value;} catch{ titleOfWork = "-"};
             try{authorOfWork = context.results.bindings[i].authorName.value;} catch{authorOfWork = "-"};
+            try{iri_author = context.results.bindings[i].author.value;} catch{iri_author = "-"};
             try{expressionCreation = context.results.bindings[i].exp_cre.value;} catch{expressionCreation = "-"};
             try{title = context.results.bindings[i].l_title.value;} catch{ title = "-"};
             try{author = context.results.bindings[i].l_manuscript_author.value;} catch{author = "-"};
             try{placeLibriary = context.results.bindings[i].placeName.value;} catch{placeLibriary = "-"};
+            try{placeLibrary_iri = context.results.bindings[i].libraryPlace.value;} catch{placeLibrary_iri = "-"};
             try{library_iri = context.results.bindings[i].library.value;} catch{library_iri = "-"};
             try{library_name = context.results.bindings[i].libraryName.value;} catch{library = "-"};
             try{signature = context.results.bindings[i].signature.value;} catch{signature = "-"};
@@ -204,8 +208,10 @@ fetch(query,
 
             idManuscript.textContent = placeLibriary + ", " + library_name + ", " + signature;
             idManuscriptBread.textContent = placeLibriary + ", " + library_name + ", " + signature;
-            idLemmaBread.textContent = authorOfWork + ", " + titleOfWork;
-            idLemmaBread.href = "lemma.html?lemma="+expressionCreation;
+            idLemmaBread.textContent = titleOfWork;
+            idLemmaBread.href = "lemma.html?iri="+expressionCreation;
+            idLemmaAuthorBread.textContent = authorOfWork;
+            idLemmaAuthorBread.href = "author.html?iri=" + iri_author;
             authorSpan.textContent = author;
             if(author == ""){
                 authorSpan.textContent = "-";
@@ -218,9 +224,9 @@ fetch(query,
                 workSpan.textContent = title;
             }
             if(placeLibriary == ""){
-                placeLibriarySpan.textContent = "-";
+                placeLibrarySpan.textContent = "-";
             }else{
-                placeLibriarySpan.textContent = placeLibriary;
+                placeLibrarySpan.textContent = placeLibriary;
             }
             if(library_name == ""){
                 librarySpan.textContent = "-";
@@ -287,7 +293,8 @@ fetch(query,
             }else{
                 notesSpan.textContent = notes;
             }
-            libraryA.href="library.html?library="+library_iri;
+            libraryA.href="library.html?iri="+library_iri;
+            placeLibraryA.href="place.html?iri="+placeLibrary_iri;
             userSpan.textContent = user;
             const date = new Date(lastMod).toLocaleDateString('en-GB');
             lastModSpan.textContent = date;

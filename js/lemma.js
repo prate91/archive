@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
 var urlParams = new URLSearchParams(window.location.search);
 
 // Get value of single parameter
-var sectionName = urlParams.get('lemma');
+var sectionName = urlParams.get('iri');
 
 // Output value to console
 console.log(sectionName);
@@ -96,7 +96,7 @@ fetch(query,
 
             idLemmaBread.textContent = title;
             idLemmaAuthorBread.textContent = name_author;
-            idLemmaAuthorBread.href = "author.html?author=" + iri_author;
+            idLemmaAuthorBread.href = "author.html?iri=" + iri_author;
             authorName.textContent = name_author;
             work.textContent = title;
             abstractSpan.textContent = abstract;
@@ -212,7 +212,7 @@ fetch(query_man,
             li = document.createElement('li');
             li.className = "list-group-item";
             var a = document.createElement('a'); 
-            a.href = "manuscript.html?manuscript=" + iri_manuscript;
+            a.href = "manuscript.html?iri=" + iri_manuscript;
             text = document.createTextNode(place + ", " + library + ", " + signatureName);
             a.appendChild(text);
             li.appendChild(a);
@@ -336,7 +336,7 @@ fetch(query_prin,
         li = document.createElement('li');
         li.className = "list-group-item";
         var a = document.createElement('a'); 
-        a.href = "printEdition.html?printEdition=" + iri_print_edition;
+        a.href = "printEdition.html?iri=" + iri_print_edition;
         text = document.createTextNode(place + ", " + publisherName + ", " + datazione);
         a.appendChild(text);
         li.appendChild(a);

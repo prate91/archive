@@ -613,7 +613,7 @@ function build_table(filter_1, filter_2){
                 li = document.createElement('li');
                 li.className = "list-group-item";
                 var a = document.createElement('a'); 
-                a.href = "manuscript.html?manuscript=" + iri_manuscript;
+                a.href = "manuscript.html?iri=" + iri_manuscript;
                 text = document.createTextNode(place + ", " + library + ", " + signatureName + ", " + foliosName);
                 d = document.createTextNode(" (" + datazione + ")");
                 c = document.createTextNode(String(i+1));

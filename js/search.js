@@ -100,7 +100,7 @@ fetch(query,
             var div2 = document.createElement('div');
             div2.className = "markcontext"
             var a = document.createElement('a'); 
-            a.href = "lemma.html?lemma=" + iri_lemma;
+            a.href = "lemma.html?iri=" + iri_lemma;
             a.className = "markcontextwork"
             var spanAlias = document.createElement('small');   
             spanAlias.className = 'text-muted';

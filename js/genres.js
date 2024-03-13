@@ -244,7 +244,7 @@ function changeToponym() {
                 div1.className = 'listDiv ms-2 me-auto';
                 var div2 = document.createElement('div');
                 var a = document.createElement('a'); 
-                a.href = "lemma.html?lemma=" + iri_lemma;
+                a.href = "lemma.html?iri=" + iri_lemma;
             
                 var text1 = document.createTextNode(author);
                 var text2 = document.createTextNode(title);

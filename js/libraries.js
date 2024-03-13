@@ -314,7 +314,7 @@ fetch(query,
             li = document.createElement('li');
             li.className = "list-group-item";
             var a = document.createElement('a'); 
-            a.href = "manuscript.html?manuscript=" + iri_manuscript;
+            a.href = "manuscript.html?iri=" + iri_manuscript;
             if(foliosName!=""){
             text = document.createTextNode(place + ", " + library + ", " + signatureName + ", " + foliosName);
             } else {
