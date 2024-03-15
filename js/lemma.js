@@ -178,7 +178,7 @@ console.log(iriParam);
     var manList = document.getElementById("manuscript-list");
 
     if(data2.results.bindings.length==0){
-        text = document.createTextNode("nessun manoscritto annotato");
+        text = document.createTextNode("nessun manoscritto censito");
         manList.appendChild(text);
         }
     for (var i=0; i<data2.results.bindings.length; i++) {
@@ -236,7 +236,7 @@ console.log(iriParam);
     var prinList = document.getElementById("print-list");
     
     if(data3.results.bindings.length==0){
-        text = document.createTextNode("nessuna edizione a stampa annotata");
+        text = document.createTextNode("nessuna edizione a stampa censita");
         prinList.appendChild(text);
      }
     for (var i=0; i<data3.results.bindings.length; i++) {
