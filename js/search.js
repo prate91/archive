@@ -5,18 +5,15 @@ const named_graph = "https://imagoarchive.it/fuseki/imago/archive";
 
 // Wait for the page to load
 document.addEventListener('DOMContentLoaded', function () {
-    
-    
 
-document.getElementById("fauthor").addEventListener("keyup", searchLemmas);
+    document.getElementById("fauthor").addEventListener("keyup", searchLemmas);
 
-document.getElementById("ftitle").addEventListener("keyup", searchLemmas);
+    document.getElementById("ftitle").addEventListener("keyup", searchLemmas);
 
 });
 
-function searchLemmas() {
-    // document.getElementById("results-list").innerHTML="" ;
-    // document.getElementById("fname").style.backgroundColor = "red";
+async function searchLemmas() {
+   
     var x = document.getElementById("fauthor");
     // x.value = x.value.toUpperCase();
     console.log(x.value);
@@ -55,37 +52,29 @@ function searchLemmas() {
 
     
 
-var query = url + encodeURIComponent(search_query);
+    var query = url + encodeURIComponent(search_query);
 
-// Fetch current annotation
-fetch(query,
-    {
+    /// Fetch current annotation
+    let response = await fetch(query, {
         method: 'GET',
         headers: headers,
-        mode: 'cors' // questo forse va tolto se non si usa HTTPS?
+        mode: 'cors' 
     })
-    .then((response) => {
-        return response.json();
-    })
-    .then((context) => {
-        /*
-            Qui riceviamo il context in JSON, quindi possiamo
-            prendere la variabile "data" e aggiornarla. Volendo si
-            può fare la stessa cosa anche per la variabile "json"
-            che contiene il JSON formattato
-        */
-        // document.getElementById("result").innerHTML=context.results;
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+    let data = await response.json();
 
         var r = ""
         var list = document.getElementById("results-list");
         list.innerHTML="";
-        console.log(context.results.bindings);
+        console.log(data.results.bindings);
         old_iri_lemma = "";
-        for (var i=0; i<context.results.bindings.length; i++) {
-            title = context.results.bindings[i].title.value;
-            author = context.results.bindings[i].authorName.value;
-            alias = context.results.bindings[i].alias.value;
-            iri_lemma = context.results.bindings[i].exp_cre.value;
+        for (var i=0; i<data.results.bindings.length; i++) {
+            title = data.results.bindings[i].title.value;
+            author = data.results.bindings[i].authorName.value;
+            alias = data.results.bindings[i].alias.value;
+            iri_lemma = data.results.bindings[i].exp_cre.value;
             // if(old_iri_lemma == iri_lemma){
             //     listaalias
 
@@ -134,15 +123,6 @@ fetch(query,
          var markInstancework = new Mark(document.querySelectorAll(".markcontextwork"));
          markInstance.mark(x.value);
          markInstancework.mark(y.value);
-           
-        //  document.getElementById("result").innerHTML=r ;
-         
-
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-
 
   }
 

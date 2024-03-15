@@ -15,7 +15,7 @@
 //
 // ////////////////////////////////////////////////////////////////////////////
 //
-// This file is part of software developed by the HMR Project
+// This file is part of software developed by the IMAGO Project
 // Further information at: http://imagoarchive.it
 // Copyright (C) 2020-2023 CNR-ISTI, AIMH, AI&Digital Humanities group
 //
@@ -92,198 +92,8 @@ document.addEventListener('DOMContentLoaded', function () {
 // var select1 = document.getElementById("select-state");
 // var $select = $(select1);
     var selectize = $select[0].selectize;
-// Get Django CSRF token
-//let csrf = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
-
-// Set request headers
-let headers = new Headers();
-//headers.append('X-CSRFToken', csrf);
-headers.append('X-Requested-With', 'XMLHttpRequest');
 
 
-var get_toponyms = "PREFIX : <https://imagoarchive.it/ontology/>" +
-                    "SELECT ?label ?genre " +
-                    "FROM <"+named_graph+">" +
-                    "WHERE {" +
-                    "		?genre a :Genre;" +
-                    "  			:has_genre_name ?label." +
-                    "} ORDER BY ?label ";
-
-
-
-var query = url + encodeURIComponent(get_toponyms);
-
-// Fetch current annotation
-fetch(query,
-    {
-        method: 'GET',
-        headers: headers,
-        mode: 'cors' // questo forse va tolto se non si usa HTTPS?
-    })
-    .then((response) => {
-        return response.json();
-    })
-    .then((context) => {
-        /*
-            Qui riceviamo il context in JSON, quindi possiamo
-            prendere la variabile "data" e aggiornarla. Volendo si
-            può fare la stessa cosa anche per la variabile "json"
-            che contiene il JSON formattato
-        */
-        for (var i=0; i<context.results.bindings.length; i++) {
-            iri_author = context.results.bindings[i].genre.value;
-            label_author = context.results.bindings[i].label.value;
-            // selectize.addOption({value: iri_author, text: label_author});
-            // selectize.addItem(label_toponym);
-            // var option = document.createElement('option');
-            // var option1 = document.createElement('option');
-            // // option.classList = "Option";
-            // option.value = label_toponym;
-            // option1.value = iri_toponym;
-            // option.setAttribute('data-value', iri_toponym);
-            // var text = document.createTextNode(label_toponym);
-            // option1.appendChild(text);
-            // select.appendChild(option);
-            // select1.appendChild(option1);
-         }
-         
-
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-
-
-    // var btn_cerca = document.getElementById("btn-cerca");
-    // btn_cerca.addEventListener('click', event => {
-    //     btn_cerca.textContent = `Click count: ${event.detail}`;
-    //   });
-
-    // btn_cerca.addEventListener("click", selectToponym); 
-    // select1.addEventListener("change", changeToponym); 
-    
-   
-    // var btn_mostra_luoghi = document.getElementById("btn-mostra-luoghi");
-    // var btn_mostra_occ = document.getElementById("btn-mostra-occ");
-    // var btn_mostra_context = document.getElementById("btn-mostra-context");
-
-    // btn_mostra_luoghi.addEventListener("click", showPlaces); 
-    // btn_mostra_occ.addEventListener("click", showOcc); 
-    // btn_mostra_context.addEventListener("click", showContexts); 
-
-    // var btn_hide_luoghi = document.getElementById("btn-hide-luoghi");
-    // var btn_hide_occ = document.getElementById("btn-hide-occ");
-    // var btn_hide_context = document.getElementById("btn-hide-context");
-
-    // btn_hide_luoghi.addEventListener("click", hidePlaces); 
-    // btn_hide_occ.addEventListener("click", hideOcc); 
-    // btn_hide_context.addEventListener("click", hideContexts); 
-
-    // document.getElementById("btn-mostra-luoghi").style.display = "none";
-    // document.getElementById("btn-hide-luoghi").style.display = "inline-block";
-
-   
-    // $.fn.pageMe = function(opts){
-    //     var $this = this,
-    //         defaults = {
-    //             perPage: 7,
-    //             showPrevNext: false,
-    //             hidePageNumbers: false
-    //         },
-    //         settings = $.extend(defaults, opts);
-    
-    //     var listElement = $this;
-    //     var perPage = settings.perPage; 
-    //     var children = listElement.children();
-    //     var pager = $('.pager');
-    
-    //     if (typeof settings.childSelector!="undefined") {
-    //         children = listElement.find(settings.childSelector);
-    //     }
-    
-    //     if (typeof settings.pagerSelector!="undefined") {
-    //         pager = $(settings.pagerSelector);
-    //     }
-    
-    //     var numItems = children.size();
-    //     var numPages = Math.ceil(numItems/perPage);
-    
-    //     pager.data("curr",0);
-    
-    //     if (settings.showPrevNext){
-    //         $('<li class="page-item"><a href="#" class="page-link prev_link">«</a></li>').appendTo(pager);
-    //     }
-    
-    //     var curr = 0;
-    //     while(numPages > curr && (settings.hidePageNumbers==false)){
-    //         $('<li class="page-item"><a href="#" class="page-link page_link">'+(curr+1)+'</a></li>').appendTo(pager);
-    //         curr++;
-    //     }
-    
-    //     if (settings.showPrevNext){
-    //         $('<li class="page-item"><a href="#" class="page-link next_link">»</a></li>').appendTo(pager);
-    //     }
-    
-    //     pager.find('.page_link:first').addClass('active');
-    //     pager.find('.prev_link').hide();
-    //     if (numPages<=1) {
-    //         pager.find('.next_link').hide();
-    //     }
-    //     pager.children().eq(1).addClass("active");
-    
-    //     children.hide();
-    //     children.slice(0, perPage).show();
-    
-    //     pager.find('li .page_link').click(function(){
-    //         var clickedPage = $(this).html().valueOf()-1;
-    //         goTo(clickedPage,perPage);
-    //         return false;
-    //     });
-    //     pager.find('li .prev_link').click(function(){
-    //         previous();
-    //         return false;
-    //     });
-    //     pager.find('li .next_link').click(function(){
-    //         next();
-    //         return false;
-    //     });
-    
-    //     function previous(){
-    //         var goToPage = parseInt(pager.data("curr")) - 1;
-    //         goTo(goToPage);
-    //     }
-    
-    //     function next(){
-    //         goToPage = parseInt(pager.data("curr")) + 1;
-    //         goTo(goToPage);
-    //     }
-    
-    //     function goTo(page){
-    //         var startAt = page * perPage,
-    //             endOn = startAt + perPage;
-    
-    //         children.css('display','none').slice(startAt, endOn).show();
-    
-    //         if (page>=1) {
-    //             pager.find('.prev_link').show();
-    //         }
-    //         else {
-    //             pager.find('.prev_link').hide();
-    //         }
-    
-    //         if (page<(numPages-1)) {
-    //             pager.find('.next_link').show();
-    //         }
-    //         else {
-    //             pager.find('.next_link').hide();
-    //         }
-    
-    //         pager.data("curr",page);
-    //         pager.children().removeClass("active");
-    //         pager.children().eq(page+1).addClass("active");
-    
-    //     }
-    // };
 
     $.fn.pageMe = function (opts) {
         var $this = this,
@@ -457,7 +267,7 @@ function searchManuscriptAdd(name, arguments) {
     value = String(arguments[0]);
     console.log(value);
     searchedYears.push(value);
-    console.log(searchedYears);
+    console.log(searchedYears.length);
     var filter_1 = "FILTER(";
     var filter_2 = "FILTER(";
     let i = 1;
@@ -487,36 +297,41 @@ function searchManuscriptRemove(name, arguments) {
     value = String(arguments[0]);
     console.log(value);
     var index = searchedYears.indexOf(value);
-    if (index > -1) {
-        searchedYears.splice(index, 1);
-    }
-    var filter_1 = "FILTER(";
-    var filter_2 = "FILTER(";
-    let i = 1;
-    for (y of searchedYears) {
-        if(i!=1){
-            filter_1 += " || "
-            filter_2 += " || "
-        }
-        date_extremes = extractExtremes(y);
-        start_ext = date_extremes[0];
-        end_ext = date_extremes[1];
-        filter_1 += "(\""+start_ext+"\"^^xsd:dateTime <= ?start_date_manuscript && ?start_date_manuscript <= \""+end_ext+"\"^^xsd:dateTime)" 
-        filter_2 += "(\""+start_ext+"\"^^xsd:dateTime <= ?end_date_manuscript && ?end_date_manuscript <= \""+end_ext+"\"^^xsd:dateTime)";
-        i++;
-        
-        }
-        filter_1 += ")";
-        filter_2 += ")";
-        
-//    document.getElementById("toponyms-place").innerHTML = "";
-//    document.getElementById("toponyms-place").hidden = false;
+    console.log(searchedYears.length);
+    // console.log(index);
+    if (searchedYears.length == 1) {
+        console.log("STOP");
+        document.getElementById("card-table").style.display =  "none";
 
-//    document.getElementById("download-toponyms-place").style.display =  "block";
-    build_table(filter_1, filter_2);
-    }
+    }else{
 
-function build_table(filter_1, filter_2){
+        if (index > -1) {
+            searchedYears.splice(index, 1);
+        }
+        var filter_1 = "FILTER(";
+        var filter_2 = "FILTER(";
+        let i = 1;
+        for (y of searchedYears) {
+            if(i!=1){
+                filter_1 += " || "
+                filter_2 += " || "
+            }
+            date_extremes = extractExtremes(y);
+            start_ext = date_extremes[0];
+            end_ext = date_extremes[1];
+            filter_1 += "(\""+start_ext+"\"^^xsd:dateTime <= ?start_date_manuscript && ?start_date_manuscript <= \""+end_ext+"\"^^xsd:dateTime)" 
+            filter_2 += "(\""+start_ext+"\"^^xsd:dateTime <= ?end_date_manuscript && ?end_date_manuscript <= \""+end_ext+"\"^^xsd:dateTime)";
+            i++;
+            
+            }
+            filter_1 += ")";
+            filter_2 += ")";
+            
+        build_table(filter_1, filter_2);
+    }
+}
+
+async function build_table(filter_1, filter_2){
     let headers = new Headers();
     //headers.append('X-CSRFToken', csrf);
     headers.append('X-Requested-With', 'XMLHttpRequest');
@@ -552,152 +367,66 @@ function build_table(filter_1, filter_2){
     var query = url + encodeURIComponent(get_manuscripts);
 
     // Fetch current annotation
-    fetch(query,
-        {
-            method: 'GET',
-            headers: headers,
-            mode: 'cors' // questo forse va tolto se non si usa HTTPS?
-        })
-        .then((response) => {
-            return response.json();
-        })
-        .then((context) => {
-            /*
-                Qui riceviamo il context in JSON, quindi possiamo
-                prendere la variabile "data" e aggiornarla. Volendo si
-                può fare la stessa cosa anche per la variabile "json"
-                che contiene il JSON formattato
-            */
-
-            var list = document.getElementById("results-list-genres");
-
-            var table = document.getElementById("myTableBody");
-
-            var pagin = document.getElementById("myPager");
-          
-            pagin.innerHTML = "";
-            table.innerHTML = "";
-         
-            console.log(table);
-            // console.log(list);
-            // list.innerHTML = "";
-            // var tr = document.createElement('tr');   
-
-            //     var th1 = document.createElement('th');
-            //     var th2 = document.createElement('th');
-            //     // var th3 = document.createElement('th');
-            
-            //     var text1 = document.createTextNode('Autore');
-            //     var text2 = document.createTextNode('Opera');
-
-            //     th1.appendChild(text1);
-            //     // th1.appendChild(addIconArrows());
-            //     th2.appendChild(text2);
-            //     // th2.appendChild(addIconArrows());
-
-            //     tr.appendChild(th1);
-            //     tr.appendChild(th2);
-            
-            //     table.appendChild(tr);
-            
-            for (var i=0; i<context.results.bindings.length; i++) {
-                // console.log(context.results.bindings[i].labelWork.value);
-                iri_manuscript = context.results.bindings[i].manuscript.value;
-                place = context.results.bindings[i].placeName.value;
-                library = context.results.bindings[i].libraryName.value;
-                signatureName = context.results.bindings[i].signature.value;
-                foliosName = context.results.bindings[i].folios.value;
-                datazione = context.results.bindings[i].date_manuscript.value;
+    let response = await fetch(query, {
+        method: 'GET',
+        headers: headers,
+        mode: 'cors' 
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+    let data = await response.json();
+    // document.getElementById("caricamento").classList.remove("d-none");
+    // console.log(document.getElementById("caricamento"));
+    // document.getElementById("caricamento").classList.add("d-none");
 
 
-                li = document.createElement('li');
-                li.className = "list-group-item";
-                var a = document.createElement('a'); 
-                a.href = "manuscript.html?iri=" + iri_manuscript;
-                text = document.createTextNode(place + ", " + library + ", " + signatureName + ", " + foliosName);
-                d = document.createTextNode(" (" + datazione + ")");
-                c = document.createTextNode(String(i+1));
-                a.appendChild(text);
-                // li.appendChild(a);
-                // li.appendChild(d);
+    var table = document.getElementById("myTableBody");
 
-                // list.appendChild(li);
-
-                
-                tr = document.createElement('tr');
-                td_count = document.createElement('td');
-                td_name = document.createElement('td');
-                td_date = document.createElement('td');
-                td_count.appendChild(c);
-                td_name.appendChild(a);
-                td_date.appendChild(d);
-                tr.appendChild(td_count);
-                tr.appendChild(td_name);
-                tr.appendChild(td_date);
-                table.appendChild(tr);
-
-                // console.log(table);
-                
-                
-
-                // author = context.results.bindings[i].authorName.value;
-                // title = context.results.bindings[i].title.value;
-                // iri_lemma = context.results.bindings[i].exp_cre.value;
-
-                // var li = document.createElement('li');   
-                // li.className = 'list-group-item d-flex justify-content-between align-items-start';
-                // var div1 = document.createElement('div');
-                // div1.className = 'ms-2 me-auto';
-                // var div2 = document.createElement('div');
-                // var a = document.createElement('a'); 
-                // a.href = "lemma.html?lemma=" + iri_lemma;
-            
-                // var text1 = document.createTextNode(author);
-                // var text2 = document.createTextNode(title);
-            
-                // a.appendChild(text2);
-                // div2.appendChild(text1);
-                // div1.appendChild(div2);
-                // div1.appendChild(a);
-                // li.appendChild(div1);
-            
-                // list.appendChild(li);
-            }
-            $('#myTableBody').pageMe({pagerSelector:'#myPager',showPrevNext:true,hidePageNumbers:false,perPage:40,maxPageNumbers:10});
-            console.log(document.getElementById("caricamento"));
-            document.getElementById("caricamento").classList.add("d-none");
-            //  console.log(context);
-            // th1.addEventListener("click", function(){ sortTable(0, "toponyms-place"); }); 
-            // th2.addEventListener("click", function(){ sortTable(1, "toponyms-place"); }); 
-            
+    var pagin = document.getElementById("myPager");
         
-
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-        document.getElementById("caricamento").classList.remove("d-none");
-        document.getElementById("download-toponyms-place").style.display =  "inline-block";
-        document.getElementById("card-table").style.display =  "block";
+    pagin.innerHTML = "";
+    table.innerHTML = "";
+    
+    // console.log(table);
        
-    // document.getElementById("title-occ").hidden = false;
-    // document.getElementById("title-context").hidden = false;
+    for (var i=0; i<data.results.bindings.length; i++) {
+        // console.log(data.results.bindings[i].labelWork.value);
+        iri_manuscript = data.results.bindings[i].manuscript.value;
+        place = data.results.bindings[i].placeName.value;
+        library = data.results.bindings[i].libraryName.value;
+        signatureName = data.results.bindings[i].signature.value;
+        foliosName = data.results.bindings[i].folios.value;
+        datazione = data.results.bindings[i].date_manuscript.value;
 
-    // document.getElementById("btn-hide-luoghi").style.display = "none";
-    // document.getElementById("btn-hide-occ").style.display = "none";
-    // document.getElementById("btn-hide-context").style.display = "none";
 
-    // document.getElementById("btn-mostra-luoghi").style.display = "inline-block";
-    // document.getElementById("btn-mostra-occ").style.display = "inline-block";
-    // document.getElementById("btn-mostra-context").style.display = "inline-block";
+        li = document.createElement('li');
+        li.className = "list-group-item";
+        var a = document.createElement('a'); 
+        a.href = "manuscript.html?iri=" + iri_manuscript;
+        text = document.createTextNode(place + ", " + library + ", " + signatureName + ", " + foliosName);
+        d = document.createTextNode(" (" + datazione + ")");
+        c = document.createTextNode(String(i+1));
+        a.appendChild(text);
 
-    // document.getElementById("toponyms-place").hidden = true;
-    // document.getElementById("toponyms-table").hidden = true;
-    // document.getElementById("toponyms-table-2").hidden = true;
+        
+        tr = document.createElement('tr');
+        td_count = document.createElement('td');
+        td_name = document.createElement('td');
+        td_date = document.createElement('td');
+        td_count.appendChild(c);
+        td_name.appendChild(a);
+        td_date.appendChild(d);
+        tr.appendChild(td_count);
+        tr.appendChild(td_name);
+        tr.appendChild(td_date);
+        table.appendChild(tr);
 
-    // document.getElementById("download-toponyms-table-2").style.display =  "none";
-    // document.getElementById("download-toponyms-table").style.display =  "none";
-    // document.getElementById("download-toponyms-place").style.display =  "none";
+    }
+    $('#myTableBody').pageMe({pagerSelector:'#myPager',showPrevNext:true,hidePageNumbers:false,perPage:40,maxPageNumbers:10});
+    
+    document.getElementById("download-toponyms-place").style.display =  "inline-block";
+    document.getElementById("card-table").style.display =  "block";
+       
     
 }
-// Example custom ordering function
