@@ -153,8 +153,10 @@ console.log(sectionName);
         authorSpan.textContent = (author_print == "" || author_print == " ") ? "-" : author_print ;
         workSpan.textContent = (title == "" || title == " ") ? "-" : title ;
         curatorSpan.textContent = (curator == "" || curator == " ") ? "-" : curator ;
-        placeSpan.textContent =(place == "" || place == " ") ? "-" : place ;
-        placeA.href = "place.html?iri="+place_iri ;
+        placeSpan.textContent =(place == "" || place == " " || place == "Sconosciuto") ? "-" : place ;
+        if(place != "Sconosciuto"){
+            placeA.href = "place.html?iri="+place_iri ;
+        }
         // signatureSpan.textContent = coordinates;
         placeAsAppearSpan.textContent =(placeAsAppear == "" || placeAsAppear == " ") ? "-" : placeAsAppear ;
         dataSpan.textContent =(datazione == "" || datazione == " ") ? "-" : datazione ;

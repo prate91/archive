@@ -82,9 +82,7 @@ headers.append('X-Requested-With', 'XMLHttpRequest');
 	"  	?manifestation_creation ilrm:R24_created ?manifestation ." +
 	"    ?library ecrm:P74_has_current_or_former_residence ?libraryPlace ;" +
 	"             ecrm:P1_is_identified_by/ecrm:P190_has_symbolic_content ?libraryName ." +
-	"    ?libraryPlace :is_identified_by_toponym ?toponym ;" +
-	"                  ecrm:P168_place_is_defined_by ?coordinates ." +
-	"    ?coordinates ecrm:P190_has_symbolic_content ?s_coordinates ." +
+	"    ?libraryPlace :is_identified_by_toponym ?toponym ." +
 	"    ?toponym ecrm:P190_has_symbolic_content ?placeName ." +
 	"    OPTIONAL{" +
 	"      ?m_author ecrm:P106i_forms_part_of ?manifestation ;" +
@@ -231,9 +229,14 @@ for (var i=0; i<data.results.bindings   .length; i++) {
     try{notes = data.results.bindings[i].l_notes.value;} catch{notes = "-"};
     try{user = data.results.bindings[i].annotator.value;} catch{notes = "-"};
     try{lastMod = data.results.bindings[i].timestamp.value;} catch{notes = "-"};
-
-    idManuscript.textContent = placeLibriary + ", " + library_name + ", " + signature;
-    idManuscriptBread.textContent = placeLibriary + ", " + library_name + ", " + signature;
+    if(library_name == "Sconosciuta"){
+        library_name = "-";
+        idManuscript.textContent = placeLibriary + ", " + signature;
+        idManuscriptBread.textContent = placeLibriary + ", " + signature;
+    }else{
+        idManuscript.textContent = placeLibriary + ", " + library_name + ", " + signature;
+        idManuscriptBread.textContent = placeLibriary + ", " + library_name + ", " + signature;
+    }
     idLemmaBread.textContent = titleOfWork;
     idLemmaBread.href = "lemma.html?iri="+expressionCreation;
     idLemmaAuthorBread.textContent = authorOfWork;
@@ -254,7 +257,7 @@ for (var i=0; i<data.results.bindings   .length; i++) {
     }else{
         placeLibrarySpan.textContent = placeLibriary;
     }
-    if(library_name == ""){
+    if(library_name == "" || library_name == "Sconosciuta"){
         librarySpan.textContent = "-";
     }else{
         librarySpan.textContent = library_name;
@@ -319,7 +322,10 @@ for (var i=0; i<data.results.bindings   .length; i++) {
     }else{
         notesSpan.textContent = notes;
     }
-    libraryA.href="library.html?iri="+library_iri;
+    console.log(library_name);
+    if(library_name != "-"){
+        libraryA.href="library.html?iri="+library_iri;
+    }
     placeLibraryA.href="place.html?iri="+placeLibrary_iri;
     userSpan.textContent = user;
     const date = new Date(lastMod).toLocaleDateString('en-GB');

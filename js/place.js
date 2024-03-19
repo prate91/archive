@@ -287,10 +287,9 @@ document.addEventListener('DOMContentLoaded', async function () {
         try{publisherName = data4.results.bindings[i].publisher.value;} catch{ publisherName = ""}
         try{datazione = data4.results.bindings[i].l_datazione.value;} catch{ datazione = ""}
         // places = data4.results.bindings[i].places.value;
-        if(place==""){
+        if(place=="Sconosciuto"||place==""){
             place = "[s.l.]"; 
          }
-
          if(publisherName==""){
             publisherName = "[s.t.]"; 
          }

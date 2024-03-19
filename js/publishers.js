@@ -94,9 +94,9 @@ let data = await response.json();
               
             var coord = parseWKT(dataMap[key].coord.value);
                
-               
+            if(dataMap[key].placeName.value !="Sconosciuto"){
             L.marker([coord[2],coord[1]], {icon: greenIcon}).bindPopup("<div style='font-size:14px;'><br />Luogo: <b>"+ dataMap[key].placeName.value +"</b><br/><br/>"+ "<button type='button' class='btn btn-sm btn-primary show-manuscript' data-iri='"+dataMap[key].place.value+"' onclick='showManuscripts(this)'>Mostra opere</button> </div> ").addTo(mcg) // Add into the MCG instead of directly to the map.
-
+            }
          }  
    }
    mcg.addTo(map);

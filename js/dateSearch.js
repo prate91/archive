@@ -356,9 +356,7 @@ async function build_table(filter_1, filter_2){
 	" 								:has_end_date ?end_date_manuscript ." +
 	"	  ?library ecrm:P74_has_current_or_former_residence ?libraryPlace ;" +
 	"	  	ecrm:P1_is_identified_by/ecrm:P190_has_symbolic_content ?libraryName ." +
-	"	   ?libraryPlace :is_identified_by_toponym ?toponym ;" +
-	"	                  ecrm:P168_place_is_defined_by ?coordinates ." +
-	"	  	?coordinates ecrm:P190_has_symbolic_content ?s_coordinates ." +
+	"	   ?libraryPlace :is_identified_by_toponym ?toponym ." +
 	"	   ?toponym ecrm:P190_has_symbolic_content ?placeName . " + filter_1 + filter_2 +
 	"	} ORDER BY ?start_date_manuscript ?end_date_manuscript ?placeName ?libraryName ?signature ";
    
@@ -404,7 +402,11 @@ async function build_table(filter_1, filter_2){
         li.className = "list-group-item";
         var a = document.createElement('a'); 
         a.href = "manuscript.html?iri=" + iri_manuscript;
-        text = document.createTextNode(place + ", " + library + ", " + signatureName + ", " + foliosName);
+        if(library=="Sconosciuta"){
+            text = document.createTextNode(place + ", " + signatureName + ", " + foliosName);
+        } else {
+            text = document.createTextNode(place + ", " + library + ", " + signatureName + ", " + foliosName);
+        }
         d = document.createTextNode(" (" + datazione + ")");
         c = document.createTextNode(String(i+1));
         a.appendChild(text);
