@@ -134,7 +134,7 @@ console.log(iriParam);
 	"PREFIX ecrm: <http://erlangen-crm.org/200717/>" +
 	"PREFIX ilrm: <http://imagoarchive.it/ilrmoo/>" +
 	"PREFIX : <https://imagoarchive.it/ontology/>" +
-	"SELECT ?manuscript ?placeName ?libraryName ?signature ?folios ?s_coordinates ?l_manuscript_author ?l_m_title " +
+	"SELECT DISTINCT ?manuscript ?placeName ?libraryName ?signature ?folios ?l_manuscript_author ?l_m_title " +
 	"FROM <"+named_graph+">" +
 	"WHERE {" +
 	"  BIND(<"+iriParam+"> AS ?exp_cre)" +
@@ -145,9 +145,7 @@ console.log(iriParam);
 	"  ?manifestation ilrm:R7i_is_materialized_in ?manuscript ." +
 	"  ?library ecrm:P74_has_current_or_former_residence ?libraryPlace ;" +
 	"  	ecrm:P1_is_identified_by/ecrm:P190_has_symbolic_content ?libraryName ." +
-	"   ?libraryPlace :is_identified_by_toponym ?toponym ;" +
-	"                  ecrm:P168_place_is_defined_by ?coordinates ." +
-	"  	?coordinates ecrm:P190_has_symbolic_content ?s_coordinates ." +
+	"   ?libraryPlace :is_identified_by_toponym ?toponym ." +
 	"   ?toponym ecrm:P190_has_symbolic_content ?placeName ." +
 	"  OPTIONAL{" +
 	"  ?m_author ecrm:P106i_forms_part_of ?manifestation ;" +
@@ -191,7 +189,12 @@ console.log(iriParam);
         li.className = "list-group-item";
         var a = document.createElement('a'); 
         a.href = "manuscript.html?iri=" + iri_manuscript;
-        text = document.createTextNode(place + ", " + library + ", " + signatureName);
+        if(library == "Sconosciuta"){
+            text = document.createTextNode(place + ", " + signatureName);
+        }else{
+            text = document.createTextNode(place + ", " + library + ", " + signatureName);
+        }
+       
         a.appendChild(text);
         li.appendChild(a);
 
@@ -245,7 +248,7 @@ console.log(iriParam);
         try{publisherName = data3.results.bindings[i].publisher.value;} catch{ publisherName = ""}
         try{datazione = data3.results.bindings[i].l_datazione.value;} catch{ datazione = ""}
         // places = data3.results.bindings[i].places.value;
-        if(place==""){
+        if(place=="Sconosciuto"||place==""){
             place = "[s.l.]"; 
          }
 

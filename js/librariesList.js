@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         library_iri = data.results.bindings[i].library.value;
         library_name = data.results.bindings[i].libraryName.value;
 
-
+        if(library_name!="Sconosciuta"){
         li = document.createElement('li');
         li.className = "list-group-item";
         var a = document.createElement('a'); 
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         tr.appendChild(td_date);
         table.appendChild(tr);
 
-        
+        }
 
     }
         

@@ -85,26 +85,26 @@ let headers = new Headers();
         place_iri = data.results.bindings[i].place.value;
         
 
+        if(place_name!="Sconosciuto"){
+            li = document.createElement('li');
+            li.className = "list-group-item";
+            var a = document.createElement('a'); 
+            a.href = "place.html?iri=" + place_iri;
+            text = document.createTextNode(place_name);
+            c = document.createTextNode(String(i+1));
+            a.appendChild(text);
+            
 
-        li = document.createElement('li');
-        li.className = "list-group-item";
-        var a = document.createElement('a'); 
-        a.href = "place.html?iri=" + place_iri;
-        text = document.createTextNode(place_name);
-        c = document.createTextNode(String(i+1));
-        a.appendChild(text);
-        
-
-        
-        tr = document.createElement('tr');
-        td_count = document.createElement('td');
-        td_name = document.createElement('td');
-        td_count.appendChild(c);
-        td_name.appendChild(a);
-        tr.appendChild(td_count);
-        tr.appendChild(td_name);
-        table.appendChild(tr);
-
+            
+            tr = document.createElement('tr');
+            td_count = document.createElement('td');
+            td_name = document.createElement('td');
+            td_count.appendChild(c);
+            td_name.appendChild(a);
+            tr.appendChild(td_count);
+            tr.appendChild(td_name);
+            table.appendChild(tr);
+        }
     }
        
 

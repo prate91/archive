@@ -120,8 +120,9 @@ document.addEventListener('DOMContentLoaded', async function () {
          var coord = parseWKT(dataMap[key].coord.value);
          
          
-         L.marker([coord[2],coord[1]], {icon: greenIcon}).bindPopup("<div style='font-size:14px;'><br />Luogo: <b>"+ dataMap[key].placeName.value +"</b><br/>Biblioteca: <b>" + dataMap[key].libraryName.value +"</b><br/><br/>"+ "<button type='button' class='btn btn-sm btn-primary show-manuscript' data-iri='"+dataMap[key].library.value+"' onclick='showManuscripts(this)'>Mostra manoscritti</button></div> ").addTo(mcg) // Add into the MCG instead of directly to the map.
-
+         if(dataMap[key].libraryName.value!="Sconosciuta"){
+            L.marker([coord[2],coord[1]], {icon: greenIcon}).bindPopup("<div style='font-size:14px;'><br />Luogo: <b>"+ dataMap[key].placeName.value +"</b><br/>Biblioteca: <b>" + dataMap[key].libraryName.value +"</b><br/><br/>"+ "<button type='button' class='btn btn-sm btn-primary show-manuscript' data-iri='"+dataMap[key].library.value+"' onclick='showManuscripts(this)'>Mostra manoscritti</button></div> ").addTo(mcg) // Add into the MCG instead of directly to the map.
+         }
       }
          
      
@@ -225,9 +226,18 @@ async function showManuscripts(btn_manuscripts) {
       var a = document.createElement('a'); 
       a.href = "manuscript.html?iri=" + iri_manuscript;
       if(foliosName!=""){
-      text = document.createTextNode(place + ", " + library + ", " + signatureName + ", " + foliosName);
+         if(library=="Sconosciuta"){
+            text = document.createTextNode(place + ", " + signatureName + ", " + foliosName);
+         }else{
+            text = document.createTextNode(place + ", " + library + ", " + signatureName + ", " + foliosName);
+         }
       } else {
-      text = document.createTextNode(place + ", " + library + ", " + signatureName);
+         if(library=="Sconosciuta"){
+            text = document.createTextNode(place + ", " + signatureName);
+         }else{
+            text = document.createTextNode(place + ", " + library + ", " + signatureName);
+         }
+      
       }
       a.appendChild(text);
       li.appendChild(a);
